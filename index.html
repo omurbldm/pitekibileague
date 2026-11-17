@@ -339,6 +339,8 @@ pointer-events:none;
 .live-chat-time{margin-left:auto;color:#666;font-size:9px}
 .live-chat-delete{margin-left:8px;padding:4px 7px;background:#292929;border:1px solid #444;color:#aaa;font-family:Arial,sans-serif;font-size:9px;cursor:pointer}
 .live-chat-delete:hover{background:#e10600;border-color:#e10600;color:#fff}
+.live-chat-delete-all{padding:10px 13px;background:#2a1111;border:1px solid #8b1a1a;color:#ff7777;font-family:"F1 Bold",Arial,sans-serif;font-size:9px;letter-spacing:1px;cursor:pointer}
+.live-chat-delete-all:hover{background:#e10600;border-color:#e10600;color:#fff}
 .live-chat-text{color:#ddd;font-size:12px;line-height:1.6;white-space:pre-wrap}
 .live-chat-compose{display:flex;gap:9px;padding:13px;border-top:1px solid #303030}
 .live-chat-input{flex:1;min-width:0;padding:13px 14px;background:#1a1a1a;border:1px solid #383838;color:#fff;font:12px Arial,sans-serif;outline:none}
@@ -563,6 +565,7 @@ text-align:center;
   </form>
   <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
   <button class="live-chat-join" id="chatNewProfileButton" type="button" style="margin:0 13px 13px">NEW PROFILE</button>
+  <button class="live-chat-delete-all" id="chatDeleteAllButton" type="button" style="display:block;margin:0 13px 13px">ADMIN: DELETE ALL MESSAGES</button>
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
@@ -1668,6 +1671,7 @@ const chatViewerColorField=document.getElementById("chatViewerColorField");
 const chatViewerColor=document.getElementById("chatViewerColor");
 const chatProfileError=document.getElementById("chatProfileError");
 const chatNewProfileButton=document.getElementById("chatNewProfileButton");
+const chatDeleteAllButton=document.getElementById("chatDeleteAllButton");
 let chatProfileEditMode=false;
 const chatDriverList=["EMIR","KEMAN","TUNA","TLOU","RAIZER","TOPRAK EGE","OMUR","AHMAD","MUSTAFA","TOPRAK SEZER","RABIYA","GIZEM","EREN","VETTELIZM","EGEMEN","HALİL","BARIŞ","UMUD","BERKE","YAVUZ"];
 
@@ -1812,6 +1816,29 @@ async function ensureChatAdmin(){
     return false;
   }
 }
+
+async function deleteAllChatMessages(){
+  if(!await ensureChatAdmin())return;
+  if(chatAuth.currentUser?.uid!==CHAT_ADMIN_UID)return;
+
+  const confirmed=confirm("WARNING: This will permanently delete ALL messages in PIT EKIBI LIVE CHAT. This cannot be undone. Continue?");
+  if(!confirmed)return;
+
+  chatDeleteAllButton.disabled=true;
+  chatDeleteAllButton.textContent="DELETING...";
+  try{
+    await remove(chatRef);
+    alert("All chat messages have been deleted.");
+  }catch(error){
+    console.error("Delete all chat messages error:",error);
+    alert("Messages could not be deleted. Check Firebase Rules and your connection.");
+  }finally{
+    chatDeleteAllButton.disabled=false;
+    chatDeleteAllButton.textContent="ADMIN: DELETE ALL MESSAGES";
+  }
+}
+
+chatDeleteAllButton.addEventListener("click",deleteAllChatMessages);
 
 async function deleteChatMessage(message){
   const isOwner=chatAuth.currentUser?.uid===message.uid;
