@@ -1580,8 +1580,8 @@ const drivers = [
   {name:"TLOU", number:"18", team:"ASTON MARTIN", key:"aston"},
   {name:"RAIZER", number:"5", team:"AUDI", key:"audi"},
   {name:"TOPRAK EGE", number:"27", team:"AUDI", key:"audi"},
-  {name:"OMUR", number:"16", team:"SCUDERIA FERRARI", key:"ferrari"},
-  {name:"AHMAD", number:"44", team:"SCUDERIA FERRARI", key:"ferrari"},
+  {name:"OMUR", number:"16", team:"SCUDERIA FERRARI", key:"ferrari", photo:"omur (1).png"},
+  {name:"AHMAD", number:"44", team:"SCUDERIA FERRARI", key:"ferrari", photo:"ahmad.png"},
   {name:"MUSTAFA", number:"87", team:"HAAS F1 TEAM", key:"haas"},
   {name:"TOPRAK SEZER", number:"31", team:"HAAS F1 TEAM", key:"haas"},
   {name:"RABIYA", number:"81", team:"MCLAREN", key:"mclaren"},
@@ -1855,7 +1855,14 @@ drivers.forEach((driver,index) => {
 
   const photo = document.createElement("div");
   photo.className = "driver-photo";
-  photo.innerHTML = '<span class="driver-photo-placeholder">+</span>';
+  if (driver.photo) {
+    const image = document.createElement("img");
+    image.src = driver.photo;
+    image.alt = driver.name;
+    photo.appendChild(image);
+  } else {
+    photo.innerHTML = '<span class="driver-photo-placeholder">+</span>';
+  }
 
   const number = document.createElement("div");
   number.className = "driver-number";
