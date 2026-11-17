@@ -1810,15 +1810,13 @@ function renderChat(snapshot){
 
     const isOwner=chatAuth.currentUser?.uid===message.uid;
     const isAdmin=chatAuth.currentUser?.uid===CHAT_ADMIN_UID;
-    if(isOwner||isAdmin){
-      const deleteButton=document.createElement("button");
-      deleteButton.type="button";
-      deleteButton.className="live-chat-delete";
-      deleteButton.textContent="DELETE";
-      deleteButton.setAttribute("aria-label","Delete message");
-      deleteButton.addEventListener("click",()=>deleteChatMessage(message));
-      top.appendChild(deleteButton);
-    }
+    const deleteButton=document.createElement("button");
+    deleteButton.type="button";
+    deleteButton.className="live-chat-delete";
+    deleteButton.textContent="DELETE";
+    deleteButton.setAttribute("aria-label","Delete message");
+    deleteButton.addEventListener("click",()=>deleteChatMessage(message));
+    top.appendChild(deleteButton);
 
     item.append(top,body);
     chatMessages.appendChild(item);
