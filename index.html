@@ -322,22 +322,7 @@ pointer-events:none;
 
 
 /* LIVE CHAT */
-.live-chat-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:14px;align-items:start;width:100%;margin-top:22px}
-.live-chat{width:100%;min-width:0;margin-top:0;background:#111;border:1px solid #303030;border-top:3px solid #e10600}
-.live-ranks{background:#111;border:1px solid #303030;border-top:3px solid #35B8A5;padding:17px;min-width:0}
-.live-ranks-title{font-family:'F1 Bold',Arial,sans-serif;font-size:12px;letter-spacing:1.5px;margin-bottom:7px}
-.live-ranks-subtitle{font-size:9px;color:#777;line-height:1.5;margin-bottom:15px}
-.live-ranks-current{padding:12px;background:#191919;border:1px solid #303030;margin-bottom:15px}
-.live-ranks-current-label{font-size:8px;letter-spacing:1.4px;color:#777;margin-bottom:7px}
-.live-ranks-current-name{font-family:'F1 Bold',Arial,sans-serif;font-size:12px;margin-bottom:5px}
-.live-ranks-current-count{font-size:9px;color:#999}
-.live-ranks-next{font-size:9px;color:#aaa;line-height:1.5;margin-top:8px}
-.live-rank-item{display:flex;align-items:center;gap:9px;padding:10px 0;border-top:1px solid #292929}
-.live-rank-dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
-.live-rank-info{min-width:0;flex:1}
-.live-rank-name{font-family:'F1 Bold',Arial,sans-serif;font-size:9px;line-height:1.4}
-.live-rank-range{font-size:8px;color:#777;margin-top:3px}
-.live-chat-rank-badge{display:inline-block;padding:3px 6px;border-radius:2px;background:#242424;font-size:8px;font-weight:bold;letter-spacing:.3px}
+.live-chat{width:100%;margin-top:22px;background:#111;border:1px solid #303030;border-top:3px solid #e10600}
 .live-chat-head{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:18px 20px;border-bottom:1px solid #303030}
 .live-chat-title{font-family:'F1 Bold',Arial,sans-serif;font-size:14px;letter-spacing:2px}
 .live-chat-subtitle{margin-top:6px;color:#777;font-size:10px;letter-spacing:1px}
@@ -380,8 +365,6 @@ pointer-events:none;
  .live-chat-input{padding:12px 9px;font-size:11px}
  .live-chat-send{padding:11px 12px;font-size:9px}
  .live-chat-modal-card{padding:22px 18px}
- .live-chat-layout{grid-template-columns:1fr;gap:12px}
- .live-ranks{padding:14px}
 }
 
 @media(max-width:850px){
@@ -563,7 +546,6 @@ text-align:center;
 </div>
 
 
-<div class="live-chat-layout" id="liveChatLayout">
 <div class="live-chat" id="liveChat">
   <div class="live-chat-head">
     <div>
@@ -581,16 +563,6 @@ text-align:center;
   </form>
   <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
   <button class="live-chat-join" id="chatNewProfileButton" type="button" style="margin:0 13px 13px">NEW PROFILE</button>
-</div>
-<aside class="live-ranks" aria-label="Chat rank guide">
- <div class="live-ranks-title">RANK SYSTEM</div><div class="live-ranks-subtitle">SEND MESSAGES, CLIMB THE GRID.</div>
- <div class="live-ranks-current"><div class="live-ranks-current-label">YOUR CURRENT RANK</div><div class="live-ranks-current-name" id="chatCurrentRankName" style="color:#929292">NOT JOINED</div><div class="live-ranks-current-count" id="chatCurrentRankCount">Join the chat to start.</div><div class="live-ranks-next" id="chatNextRank">Your progress will appear here.</div></div>
- <div class="live-rank-item"><span class="live-rank-dot" style="background:#929292"></span><div class="live-rank-info"><div class="live-rank-name" style="color:#929292">Yapıyı Öğrenmemiş</div><div class="live-rank-range">0–14 MESSAGES</div></div></div>
- <div class="live-rank-item"><span class="live-rank-dot" style="background:#A477C8"></span><div class="live-rank-info"><div class="live-rank-name" style="color:#A477C8">Pole Curse Kurbanı</div><div class="live-rank-range">15–29 MESSAGES</div></div></div>
- <div class="live-rank-item"><span class="live-rank-dot" style="background:#D6AD55"></span><div class="live-rank-info"><div class="live-rank-name" style="color:#D6AD55">FIA Karşıtı</div><div class="live-rank-range">30–44 MESSAGES</div></div></div>
- <div class="live-rank-item"><span class="live-rank-dot" style="background:#5799D6"></span><div class="live-rank-info"><div class="live-rank-name" style="color:#5799D6">Yapı Destekçisi</div><div class="live-rank-range">45–59 MESSAGES</div></div></div>
- <div class="live-rank-item"><span class="live-rank-dot" style="background:#35B8A5"></span><div class="live-rank-info"><div class="live-rank-name" style="color:#35B8A5">Yapı</div><div class="live-rank-range">60+ MESSAGES</div></div></div>
-</aside>
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
@@ -780,7 +752,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-import {getDatabase,ref,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast,runTransaction} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+import {getDatabase,ref,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
 import {getAuth,signInWithEmailAndPassword,signInAnonymously,signOut} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
 
 const firebaseConfig={
@@ -1695,9 +1667,6 @@ const chatDriverName=document.getElementById("chatDriverName");
 const chatViewerColorField=document.getElementById("chatViewerColorField");
 const chatViewerColor=document.getElementById("chatViewerColor");
 const chatProfileError=document.getElementById("chatProfileError");
-const chatCurrentRankName=document.getElementById("chatCurrentRankName");
-const chatCurrentRankCount=document.getElementById("chatCurrentRankCount");
-const chatNextRank=document.getElementById("chatNextRank");
 const chatNewProfileButton=document.getElementById("chatNewProfileButton");
 let chatProfileEditMode=false;
 const chatDriverList=["EMIR","KEMAN","TUNA","TLOU","RAIZER","TOPRAK EGE","OMUR","AHMAD","MUSTAFA","TOPRAK SEZER","RABIYA","GIZEM","EREN","VETTELIZM","EGEMEN","HALİL","BARIŞ","UMUD","BERKE","YAVUZ"];
@@ -1712,36 +1681,6 @@ chatDriverName.appendChild(option);
 const CHAT_PROFILE_STORAGE_KEY="pitEkibiChatProfileV1";
 let chatProfile=null;
 let lastChatSend=0;
-let chatRankCounts={};
-let chatMessagesCache={};
-const CHAT_RANKS=[
- {name:"Yapıyı Öğrenmemiş",min:0,max:14,color:"#929292"},
- {name:"Pole Curse Kurbanı",min:15,max:29,color:"#A477C8"},
- {name:"FIA Karşıtı",min:30,max:44,color:"#D6AD55"},
- {name:"Yapı Destekçisi",min:45,max:59,color:"#5799D6"},
- {name:"Yapı",min:60,max:Infinity,color:"#35B8A5"}
-];
-function getChatRank(count){return CHAT_RANKS.find(rank=>count>=rank.min&&count<=rank.max)||CHAT_RANKS[0];}
-function updateChatRankPanel(){
- const uid=chatAuth.currentUser?.uid;
- if(!uid||!chatProfile?.profileId){chatCurrentRankName.textContent="NOT JOINED";chatCurrentRankName.style.color="#929292";chatCurrentRankCount.textContent="Join the chat to start.";chatNextRank.textContent="Your progress will appear here.";return;}
- const count=Number(chatRankCounts?.[uid]?.[chatProfile.profileId]||0);
- const rank=getChatRank(count),index=CHAT_RANKS.indexOf(rank);
- chatCurrentRankName.textContent=rank.name;chatCurrentRankName.style.color=rank.color;
- chatCurrentRankCount.textContent=count+" MESSAGE"+(count===1?"":"S");
- chatNextRank.textContent=index===CHAT_RANKS.length-1?"TOP RANK REACHED":(CHAT_RANKS[index+1].min-count)+" MORE TO "+CHAT_RANKS[index+1].name.toUpperCase();
-}
-function createChatProfileId(){return window.crypto?.randomUUID?window.crypto.randomUUID():("p"+Date.now().toString(36)+Math.random().toString(36).slice(2,10));}
-async function changeChatRankCount(uid,profileId,delta){
- if(!uid||!profileId)return;
- const countRef=ref(chatDatabase,"chatRankCounts/"+uid+"/"+profileId);
- const result=await runTransaction(countRef,current=>{
-  const currentCount=Number.isInteger(current)&&current>=0?current:0,next=currentCount+delta;
-  return next<0?undefined:next;
- });
- if(!result.committed)throw new Error("Rank count update was not committed.");
- return result.snapshot.val();
-}
 
 function activateChatProfile(profile){
 if(profile.role==="VIEWER"&&!/^#[0-9a-f]{6}$/i.test(profile.color||""))profile.color="#e10600";
@@ -1752,7 +1691,6 @@ chatMessageInput.disabled=false;
 chatSendButton.disabled=false;
 chatMessageInput.placeholder="Write a message...";
 closeChatProfile();
-updateChatRankPanel();
 }
 
 function openChatProfile(){
@@ -1814,7 +1752,7 @@ submitButton.disabled=true;
 submitButton.textContent="CONNECTING...";
 try{
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-const profile={username,role,driverName,color,profileId:(chatProfileEditMode||!chatProfile?.profileId)?createChatProfileId():chatProfile.profileId};
+const profile={username,role,driverName,color};
 localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));
 activateChatProfile(profile);
 chatProfileEditMode=false;
@@ -1843,9 +1781,7 @@ localStorage.removeItem(CHAT_PROFILE_STORAGE_KEY);
 return;
 }
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-if(!profile.profileId){profile.profileId=createChatProfileId();localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));}
 activateChatProfile(profile);
-updateChatRankPanel();
 }catch(error){
 console.error("Chat profile restore error:",error);
 }
@@ -1888,21 +1824,17 @@ async function deleteChatMessage(message){
 
   if(!isOwner&&!isAdmin)return;
   if(!confirm("Delete this message?"))return;
-  const shouldDecrementRank=isOwner&&!isAdmin&&!!message.profileId;
-  let rankDecremented=false;
+
   try{
-    if(shouldDecrementRank){await changeChatRankCount(message.uid,message.profileId,-1);rankDecremented=true;}
     await remove(ref(chatDatabase,"chat/"+message.id));
   }catch(error){
-    if(rankDecremented){try{await changeChatRankCount(message.uid,message.profileId,1);}catch(rollbackError){console.error("Rank rollback error:",rollbackError);}}
     console.error("Chat delete error:",error);
     alert("Message could not be deleted. Check your connection and permissions.");
   }
 }
 
 function renderChat(snapshot){
-  chatMessagesCache=snapshot.val()||{};
-  const data=chatMessagesCache;
+  const data=snapshot.val()||{};
   const messages=Object.entries(data).map(([id,message])=>({id,...message}))
   .filter(message=>message&&typeof message.message==="string")
   .sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
@@ -1922,13 +1854,6 @@ function renderChat(snapshot){
     const username=document.createElement("span");
     username.className="live-chat-user";
     username.textContent=message.username||"GUEST";
-    const rankBadge=document.createElement("span");
-    rankBadge.className="live-chat-rank-badge";
-    if(message.profileId){
-      const messageCount=Number(chatRankCounts?.[message.uid]?.[message.profileId]||0);
-      const messageRank=getChatRank(messageCount);
-      rankBadge.textContent=messageRank.name;rankBadge.style.color=messageRank.color;rankBadge.style.border="1px solid "+messageRank.color+"55";
-    }else{rankBadge.hidden=true;}
     const role=document.createElement("span");
     role.className="live-chat-role";
     role.textContent=message.role==="DRIVER"?"DRIVER · "+(message.driverName||""):"VIEWER";
@@ -1942,7 +1867,7 @@ function renderChat(snapshot){
     const body=document.createElement("div");
     body.className="live-chat-text";
     body.textContent=message.message;
-    top.append(username,rankBadge,role,time);
+    top.append(username,role,time);
 
     const isOwner=chatAuth.currentUser?.uid===message.uid;
     const isAdmin=chatAuth.currentUser?.uid===CHAT_ADMIN_UID;
@@ -1963,11 +1888,6 @@ onValue(query(chatRef,orderByChild("timestamp"),limitToLast(100)),renderChat,err
 console.error("Chat read error:",error);
 chatMessages.textContent="CHAT CONNECTION ERROR. PLEASE REFRESH THE PAGE.";
 });
-onValue(ref(chatDatabase,"chatRankCounts"),snapshot=>{
- chatRankCounts=snapshot.val()||{};
- updateChatRankPanel();
- if(Object.keys(chatMessagesCache).length)renderChat({val:()=>chatMessagesCache});
-},error=>console.error("Chat rank read error:",error));
 
 chatForm.addEventListener("submit",async event=>{
 event.preventDefault();
@@ -1979,27 +1899,16 @@ const now=Date.now();
 if(now-lastChatSend<2000)return;
 chatSendButton.disabled=true;
 try{
-const uid=chatAuth.currentUser.uid;
-const profileId=chatProfile.profileId;
-let rankIncremented=false;
-await changeChatRankCount(uid,profileId,1);
-rankIncremented=true;
 const messageRef=push(chatRef);
-try{
 await set(messageRef,{
-uid,
+uid:chatAuth.currentUser.uid,
 username:chatProfile.username,
 role:chatProfile.role,
-profileId,
 driverName:chatProfile.driverName,
 color:chatProfile.role==="VIEWER"?chatProfile.color:"#e10600",
 message,
 timestamp:now
 });
-}catch(writeError){
-if(rankIncremented){try{await changeChatRankCount(uid,profileId,-1);}catch(rollbackError){console.error("Rank rollback error:",rollbackError);}}
-throw writeError;
-}
 lastChatSend=Date.now();
 chatMessageInput.value="";
 }catch(error){
