@@ -348,7 +348,7 @@ pointer-events:none;
 .live-chat-modal{position:fixed;inset:0;z-index:40000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.88);backdrop-filter:blur(6px)}
 .live-chat-modal[hidden]{display:none}
 .live-chat-modal-card{position:relative;width:100%;max-width:430px;padding:28px;background:#111;border:1px solid #383838;border-top:4px solid #e10600;box-shadow:0 20px 80px rgba(0,0,0,.7)}
-.live-chat-modal-card h3{font-family:'F1 Black',Arial,sans-serif;font-size:22px;margin-bottom:8px}
+.live-chat-modal-close{position:absolute;top:10px;right:12px;width:34px;height:34px;border:1px solid #444;background:#1b1b1b;color:#fff;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center}.live-chat-modal-close:hover{background:#e10600;border-color:#e10600}\n.live-chat-modal-card h3{font-family:'F1 Black',Arial,sans-serif;font-size:22px;margin-bottom:8px}
 .live-chat-modal-card>p{margin-bottom:22px;color:#888;font-size:11px;line-height:1.6}
 .live-chat-field{display:block;margin:15px 0}
 .live-chat-field span{display:block;margin-bottom:8px;color:#aaa;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1.5px}
@@ -566,7 +566,7 @@ text-align:center;
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
-    <h3 id="chatProfileTitle">JOIN THE GRID</h3>
+    <button class="live-chat-modal-close" id="chatProfileClose" type="button" aria-label="Close profile window">×</button>\n    <h3 id="chatProfileTitle">JOIN THE GRID</h3>
     <p>Choose a username and tell the chat whether you're a driver or a viewer.</p>
     <label class="live-chat-field"><span>USERNAME</span><input id="chatUsername" type="text" minlength="2" maxlength="20" required placeholder="Your username" autocomplete="nickname"></label>
     <label class="live-chat-field"><span>WHO ARE YOU?</span><select id="chatRole" required><option value="VIEWER">I'M A VIEWER</option><option value="DRIVER">I'M A DRIVER</option></select></label>
@@ -1658,7 +1658,7 @@ const chatMessages=document.getElementById("chatMessages");
 const chatForm=document.getElementById("chatForm");
 const chatMessageInput=document.getElementById("chatMessageInput");
 const chatSendButton=document.getElementById("chatSendButton");
-const chatProfileModal=document.getElementById("chatProfileModal");
+const chatProfileModal=document.getElementById("chatProfileModal");\nconst chatProfileClose=document.getElementById("chatProfileClose");
 const chatProfileForm=document.getElementById("chatProfileForm");
 const chatUsername=document.getElementById("chatUsername");
 const chatRole=document.getElementById("chatRole");
@@ -1716,7 +1716,7 @@ chatProfileError.textContent="";
 chatProfileModal.hidden=false;
 chatUsername.focus();
 }
-function closeChatProfile(){chatProfileModal.hidden=true;}
+function closeChatProfile(){chatProfileModal.hidden=true;}\nchatProfileClose.addEventListener("click",closeChatProfile);
 
 chatJoinButton.addEventListener("click",()=>{
 if(chatProfile){chatMessageInput.focus();return;}
