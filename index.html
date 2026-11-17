@@ -1672,8 +1672,19 @@ option.textContent=name;
 chatDriverName.appendChild(option);
 });
 
+const CHAT_PROFILE_STORAGE_KEY="pitEkibiChatProfileV1";
 let chatProfile=null;
 let lastChatSend=0;
+
+function activateChatProfile(profile){
+chatProfile=profile;
+chatJoinButton.textContent="CONNECTED";
+chatJoinButton.disabled=true;
+chatMessageInput.disabled=false;
+chatSendButton.disabled=false;
+chatMessageInput.placeholder="Write a message...";
+closeChatProfile();
+}
 
 function openChatProfile(){
 chatProfileError.textContent="";
@@ -1713,22 +1724,38 @@ submitButton.disabled=true;
 submitButton.textContent="CONNECTING...";
 try{
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-chatProfile={username,role,driverName};
-chatJoinButton.textContent="CONNECTED";
-chatJoinButton.disabled=true;
-chatMessageInput.disabled=false;
-chatSendButton.disabled=false;
-chatMessageInput.placeholder="Write a message...";
-closeChatProfile();
+const profile={username,role,driverName};
+localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));
+activateChatProfile(profile);
 chatMessageInput.focus();
 }catch(error){
-console.error("Chat sign-in error:",error);
-chatProfileError.textContent="Could not connect. Please try again.";
+console.error("Chat sign-in/profile save error:",error);
+chatProfileError.textContent="Could not connect or save your profile. Please try again.";
 }finally{
 submitButton.disabled=false;
 submitButton.textContent="ENTER CHAT";
 }
 });
+
+/* RESTORE THE SAVED PROFILE AND RECONNECT AUTOMATICALLY */
+(async()=>{
+try{
+const saved=localStorage.getItem(CHAT_PROFILE_STORAGE_KEY);
+if(!saved)return;
+const profile=JSON.parse(saved);
+if(!profile||typeof profile.username!=="string"||
+profile.username.trim().length<2||profile.username.trim().length>20||
+!["DRIVER","VIEWER"].includes(profile.role)||
+(profile.role==="DRIVER"&&!chatDriverList.includes(profile.driverName))) {
+localStorage.removeItem(CHAT_PROFILE_STORAGE_KEY);
+return;
+}
+if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
+activateChatProfile(profile);
+}catch(error){
+console.error("Chat profile restore error:",error);
+}
+})();
 
 const CHAT_ADMIN_UID="dtF2CjpDCmbBxit32AnRLjFfEE13";
 
