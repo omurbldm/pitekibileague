@@ -562,6 +562,7 @@ text-align:center;
     <button class="live-chat-send" id="chatSendButton" type="submit" disabled>SEND</button>
   </form>
   <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
+  <button class="live-chat-join" id="chatAdminUsersButton" type="button" style="margin-top:10px">ADMIN: MANAGE USERS</button>
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
@@ -751,7 +752,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-import {getDatabase,ref,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+import {getDatabase,ref,get,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
 import {getAuth,signInWithEmailAndPassword,signInAnonymously,signOut} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
 
 const firebaseConfig={
@@ -1815,6 +1816,49 @@ async function ensureChatAdmin(){
     return false;
   }
 }
+
+async function manageChatUsers(){
+  if(!await ensureChatAdmin())return;
+  try{
+    const [userSnap,driverSnap]=await Promise.all([
+      get(ref(chatDatabase,"chatUsernames")),
+      get(ref(chatDatabase,"chatDrivers"))
+    ]);
+    const users=userSnap.val()||{};
+    const drivers=driverSnap.val()||{};
+    const names=Object.keys(users);
+    if(!names.length){
+      alert("No registered chat usernames were found.");
+      return;
+    }
+    const listing=names.map((name,index)=>`${index+1}. ${name}  [${users[name]}]`).join("\n");
+    const choice=prompt("CHAT USERS\\n"+listing+"\\n\\nSilmek/sıfırlamak istediğin kullanıcı adını yaz:");
+    if(!choice)return;
+    const key=chatIdentityKey(choice);
+    const uid=users[key];
+    if(!uid){
+      alert("Username not found.");
+      return;
+    }
+    if(!confirm(choice+" kullanıcısının profil kaydını ve sohbet mesajlarını silmek/sıfırlamak istiyor musun?"))return;
+    const updates={};
+    updates["chatUsernames/"+key]=null;
+    Object.entries(drivers).forEach(([driver,owner])=>{
+      if(owner===uid)updates["chatDrivers/"+driver]=null;
+    });
+    const messagesSnap=await get(ref(chatDatabase,"chat"));
+    const messages=messagesSnap.val()||{};
+    Object.entries(messages).forEach(([id,message])=>{
+      if(message&&message.uid===uid)updates["chat/"+id]=null;
+    });
+    await update(ref(chatDatabase),updates);
+    alert("Kullanıcının adı/sürücü rezervasyonu ve sohbet mesajları silindi. Kullanıcı yeniden profil oluşturabilir.");
+  }catch(error){
+    console.error("Chat user management error:",error);
+    alert("Kullanıcı yönetimi başarısız. Firebase Rules izinlerini kontrol et.");
+  }
+}
+document.getElementById("chatAdminUsersButton")?.addEventListener("click",manageChatUsers);
 
 async function deleteChatMessage(message){
   const isOwner=chatAuth.currentUser?.uid===message.uid;
