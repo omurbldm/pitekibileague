@@ -562,6 +562,7 @@ text-align:center;
     <button class="live-chat-send" id="chatSendButton" type="submit" disabled>SEND</button>
   </form>
   <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
+  <button class="live-chat-join" id="chatNewProfileButton" type="button" style="margin:0 13px 13px">NEW PROFILE</button>
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
@@ -1666,6 +1667,8 @@ const chatDriverName=document.getElementById("chatDriverName");
 const chatViewerColorField=document.getElementById("chatViewerColorField");
 const chatViewerColor=document.getElementById("chatViewerColor");
 const chatProfileError=document.getElementById("chatProfileError");
+const chatNewProfileButton=document.getElementById("chatNewProfileButton");
+let chatProfileEditMode=false;
 const chatDriverList=["EMIR","KEMAN","TUNA","TLOU","RAIZER","TOPRAK EGE","OMUR","AHMAD","MUSTAFA","TOPRAK SEZER","RABIYA","GIZEM","EREN","VETTELIZM","EGEMEN","HALİL","BARIŞ","UMUD","BERKE","YAVUZ"];
 
 chatDriverList.forEach(name=>{
@@ -1696,6 +1699,25 @@ chatProfileModal.hidden=false;
 chatUsername.focus();
 }
 function closeChatProfile(){chatProfileModal.hidden=true;}
+
+chatNewProfileButton.addEventListener("click",()=>{
+  if(!chatProfile){
+    openChatProfile();
+    return;
+  }
+  chatProfileEditMode=true;
+  chatUsername.value=chatProfile.username||"";
+  chatRole.value=chatProfile.role||"VIEWER";
+  chatDriverName.value=chatProfile.driverName||"";
+  chatViewerColor.value=chatProfile.color||"#e10600";
+  const isDriver=chatRole.value==="DRIVER";
+  chatDriverField.hidden=!isDriver;
+  chatDriverName.required=isDriver;
+  chatViewerColorField.hidden=isDriver;
+  document.getElementById("chatProfileTitle").textContent="CREATE NEW PROFILE";
+  chatProfileForm.querySelector('button[type="submit"]').textContent="SAVE PROFILE";
+  openChatProfile();
+});
 
 chatJoinButton.addEventListener("click",()=>{
 if(chatProfile){chatMessageInput.focus();return;}
@@ -1733,13 +1755,15 @@ if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
 const profile={username,role,driverName,color};
 localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));
 activateChatProfile(profile);
+chatProfileEditMode=false;
+document.getElementById("chatProfileTitle").textContent="JOIN THE GRID";
 chatMessageInput.focus();
 }catch(error){
 console.error("Chat sign-in/profile save error:",error);
 chatProfileError.textContent="Could not connect or save your profile. Please try again.";
 }finally{
 submitButton.disabled=false;
-submitButton.textContent="ENTER CHAT";
+submitButton.textContent=chatProfileEditMode?"SAVE PROFILE":"ENTER CHAT";
 }
 });
 
