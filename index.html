@@ -320,6 +320,51 @@ pointer-events:none;
 .all-video-item strong{font-family:'F1 Bold',Arial,sans-serif;font-size:13px}
 .all-video-item small{color:#888;font-size:10px}
 
+
+/* LIVE CHAT */
+.live-chat{width:100%;margin-top:22px;background:#111;border:1px solid #303030;border-top:3px solid #e10600}
+.live-chat-head{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:18px 20px;border-bottom:1px solid #303030}
+.live-chat-title{font-family:'F1 Bold',Arial,sans-serif;font-size:14px;letter-spacing:2px}
+.live-chat-subtitle{margin-top:6px;color:#777;font-size:10px;letter-spacing:1px}
+.live-chat-join,.live-chat-send,.live-chat-submit{border:0;background:#e10600;color:#fff;padding:12px 17px;font-family:'F1 Bold',Arial,sans-serif;font-size:10px;letter-spacing:1px;cursor:pointer}
+.live-chat-join:hover,.live-chat-send:hover,.live-chat-submit:hover{background:#b90000}
+.live-chat-feed{height:330px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.live-chat-empty{margin:auto;color:#666;font-size:11px;text-align:center}
+.live-chat-message{padding:11px 13px;background:#191919;border:1px solid #292929;border-left:2px solid #555;overflow-wrap:anywhere}
+.live-chat-message.driver{border-left-color:#e10600}
+.live-chat-message-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px}
+.live-chat-user{font-family:'F1 Bold',Arial,sans-serif;font-size:11px;color:#fff}
+.live-chat-role{padding:3px 6px;background:#292929;color:#aaa;font-size:8px;font-weight:bold;letter-spacing:1px}
+.live-chat-message.driver .live-chat-role{background:rgba(225,6,0,.16);color:#ff5b55}
+.live-chat-time{margin-left:auto;color:#666;font-size:9px}
+.live-chat-text{color:#ddd;font-size:12px;line-height:1.6;white-space:pre-wrap}
+.live-chat-compose{display:flex;gap:9px;padding:13px;border-top:1px solid #303030}
+.live-chat-input{flex:1;min-width:0;padding:13px 14px;background:#1a1a1a;border:1px solid #383838;color:#fff;font:12px Arial,sans-serif;outline:none}
+.live-chat-input:focus{border-color:#e10600}
+.live-chat-input:disabled{opacity:.5}
+.live-chat-note{padding:0 14px 13px;color:#666;font-size:9px;line-height:1.5}
+.live-chat-modal{position:fixed;inset:0;z-index:40000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.88);backdrop-filter:blur(6px)}
+.live-chat-modal[hidden]{display:none}
+.live-chat-modal-card{position:relative;width:100%;max-width:430px;padding:28px;background:#111;border:1px solid #383838;border-top:4px solid #e10600;box-shadow:0 20px 80px rgba(0,0,0,.7)}
+.live-chat-modal-card h3{font-family:'F1 Black',Arial,sans-serif;font-size:22px;margin-bottom:8px}
+.live-chat-modal-card>p{margin-bottom:22px;color:#888;font-size:11px;line-height:1.6}
+.live-chat-field{display:block;margin:15px 0}
+.live-chat-field span{display:block;margin-bottom:8px;color:#aaa;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1.5px}
+.live-chat-field input,.live-chat-field select{width:100%;padding:13px;background:#1a1a1a;border:1px solid #383838;color:#fff;font:12px Arial,sans-serif;outline:none}
+.live-chat-field input:focus,.live-chat-field select:focus{border-color:#e10600}
+.live-chat-submit{width:100%;margin-top:10px;padding:14px}
+.live-chat-error{min-height:16px;margin-top:10px;color:#ff625c;font-size:10px}
+@media(max-width:600px){
+ .live-chat-head{align-items:flex-start;padding:15px}
+ .live-chat-title{font-size:12px}
+ .live-chat-join{padding:11px 12px;font-size:9px}
+ .live-chat-feed{height:300px;padding:10px}
+ .live-chat-compose{gap:6px;padding:9px}
+ .live-chat-input{padding:12px 9px;font-size:11px}
+ .live-chat-send{padding:11px 12px;font-size:9px}
+ .live-chat-modal-card{padding:22px 18px}
+}
+
 @media(max-width:850px){
 .teams-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
@@ -498,6 +543,36 @@ text-align:center;
 </div>
 </div>
 
+
+<div class="live-chat" id="liveChat">
+  <div class="live-chat-head">
+    <div>
+      <div class="live-chat-title">PIT EKIBI LIVE CHAT</div>
+      <div class="live-chat-subtitle">THE GRID IS TALKING · PUBLIC CHAT</div>
+    </div>
+    <button class="live-chat-join" id="chatJoinButton" type="button">JOIN CHAT</button>
+  </div>
+  <div class="live-chat-feed" id="chatMessages" aria-live="polite">
+    <div class="live-chat-empty">LOADING CHAT...</div>
+  </div>
+  <form class="live-chat-compose" id="chatForm">
+    <input class="live-chat-input" id="chatMessageInput" type="text" maxlength="300" placeholder="Join the chat to send a message..." autocomplete="off" disabled>
+    <button class="live-chat-send" id="chatSendButton" type="submit" disabled>SEND</button>
+  </form>
+  <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
+</div>
+<div class="live-chat-modal" id="chatProfileModal" hidden>
+  <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
+    <h3 id="chatProfileTitle">JOIN THE GRID</h3>
+    <p>Choose a username and tell the chat whether you're a driver or a viewer.</p>
+    <label class="live-chat-field"><span>USERNAME</span><input id="chatUsername" type="text" minlength="2" maxlength="20" required placeholder="Your username" autocomplete="nickname"></label>
+    <label class="live-chat-field"><span>WHO ARE YOU?</span><select id="chatRole" required><option value="VIEWER">I'M A VIEWER</option><option value="DRIVER">I'M A DRIVER</option></select></label>
+    <label class="live-chat-field" id="chatDriverField" hidden><span>SELECT YOUR DRIVER NAME</span><select id="chatDriverName"><option value="">SELECT DRIVER</option></select></label>
+    <button class="live-chat-submit" type="submit">ENTER CHAT</button>
+    <div class="live-chat-error" id="chatProfileError" role="alert"></div>
+  </form>
+</div>
+
 <div class="live-replay-message" id="liveReplayMessage" hidden>
 <span class="replay-check">✓</span><strong>SESSION COMPLETE</strong>
 <p>The session has ended. Replay controls are now available.</p>
@@ -673,8 +748,8 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-import {getDatabase,ref,set,update,onValue,serverTimestamp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
-import {getAuth,signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+import {getDatabase,ref,set,update,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+import {getAuth,signInWithEmailAndPassword,signInAnonymously} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCtxBohdFdm9pm6yVlX9KGm5PoCuTpTrc4",
@@ -1568,6 +1643,162 @@ if(event.key==="Escape"&&videosModal.classList.contains("active")){
 closeVideosModal();
 }
 });
+
+/* PUBLIC LIVE CHAT - SEPARATE FROM LIVE SESSION DATA */
+const chatApp=initializeApp(firebaseConfig,"pitEkibiChat");
+const chatDatabase=getDatabase(chatApp);
+const chatAuth=getAuth(chatApp);
+const chatRef=ref(chatDatabase,"chat");
+const chatJoinButton=document.getElementById("chatJoinButton");
+const chatMessages=document.getElementById("chatMessages");
+const chatForm=document.getElementById("chatForm");
+const chatMessageInput=document.getElementById("chatMessageInput");
+const chatSendButton=document.getElementById("chatSendButton");
+const chatProfileModal=document.getElementById("chatProfileModal");
+const chatProfileForm=document.getElementById("chatProfileForm");
+const chatUsername=document.getElementById("chatUsername");
+const chatRole=document.getElementById("chatRole");
+const chatDriverField=document.getElementById("chatDriverField");
+const chatDriverName=document.getElementById("chatDriverName");
+const chatProfileError=document.getElementById("chatProfileError");
+const chatDriverList=["EMIR","KEMAN","TUNA","TLOU","RAIZER","TOPRAK EGE","OMUR","AHMAD","MUSTAFA","TOPRAK SEZER","RABIYA","GIZEM","EREN","VETTELIZM","EGEMEN","HALİL","BARIŞ","UMUD","BERKE","YAVUZ"];
+
+chatDriverList.forEach(name=>{
+const option=document.createElement("option");
+option.value=name;
+option.textContent=name;
+chatDriverName.appendChild(option);
+});
+
+let chatProfile=null;
+let lastChatSend=0;
+
+function openChatProfile(){
+chatProfileError.textContent="";
+chatProfileModal.hidden=false;
+chatUsername.focus();
+}
+function closeChatProfile(){chatProfileModal.hidden=true;}
+
+chatJoinButton.addEventListener("click",()=>{
+if(chatProfile){chatMessageInput.focus();return;}
+openChatProfile();
+});
+
+chatRole.addEventListener("change",()=>{
+const isDriver=chatRole.value==="DRIVER";
+chatDriverField.hidden=!isDriver;
+chatDriverName.required=isDriver;
+if(!isDriver)chatDriverName.value="";
+});
+
+chatProfileForm.addEventListener("submit",async event=>{
+event.preventDefault();
+chatProfileError.textContent="";
+const username=chatUsername.value.trim().replace(/\s+/g," ");
+const role=chatRole.value;
+const driverName=role==="DRIVER"?chatDriverName.value:"";
+if(username.length<2||username.length>20){
+chatProfileError.textContent="Username must be between 2 and 20 characters.";
+return;
+}
+if(role==="DRIVER"&&!driverName){
+chatProfileError.textContent="Please select your driver name.";
+return;
+}
+const submitButton=chatProfileForm.querySelector('button[type="submit"]');
+submitButton.disabled=true;
+submitButton.textContent="CONNECTING...";
+try{
+if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
+chatProfile={username,role,driverName};
+chatJoinButton.textContent="CONNECTED";
+chatJoinButton.disabled=true;
+chatMessageInput.disabled=false;
+chatSendButton.disabled=false;
+chatMessageInput.placeholder="Write a message...";
+closeChatProfile();
+chatMessageInput.focus();
+}catch(error){
+console.error("Chat sign-in error:",error);
+chatProfileError.textContent="Could not connect. Please try again.";
+}finally{
+submitButton.disabled=false;
+submitButton.textContent="ENTER CHAT";
+}
+});
+
+function renderChat(snapshot){
+const data=snapshot.val()||{};
+const messages=Object.entries(data).map(([id,message])=>({id,...message}))
+.filter(message=>message&&typeof message.message==="string")
+.sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+chatMessages.replaceChildren();
+if(messages.length===0){
+const empty=document.createElement("div");
+empty.className="live-chat-empty";
+empty.textContent="NO MESSAGES YET. START THE CONVERSATION!";
+chatMessages.appendChild(empty);
+return;
+}
+messages.forEach(message=>{
+const item=document.createElement("article");
+item.className="live-chat-message"+(message.role==="DRIVER"?" driver":"");
+const top=document.createElement("div");
+top.className="live-chat-message-top";
+const username=document.createElement("span");
+username.className="live-chat-user";
+username.textContent=message.username||"GUEST";
+const role=document.createElement("span");
+role.className="live-chat-role";
+role.textContent=message.role==="DRIVER"?"DRIVER · "+(message.driverName||""):"VIEWER";
+const time=document.createElement("time");
+time.className="live-chat-time";
+time.textContent=message.timestamp?new Date(message.timestamp).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";
+const body=document.createElement("div");
+body.className="live-chat-text";
+body.textContent=message.message;
+top.append(username,role,time);
+item.append(top,body);
+chatMessages.appendChild(item);
+});
+chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+
+onValue(query(chatRef,orderByChild("timestamp"),limitToLast(100)),renderChat,error=>{
+console.error("Chat read error:",error);
+chatMessages.textContent="CHAT CONNECTION ERROR. PLEASE REFRESH THE PAGE.";
+});
+
+chatForm.addEventListener("submit",async event=>{
+event.preventDefault();
+if(!chatProfile){openChatProfile();return;}
+const message=chatMessageInput.value.trim();
+if(!message)return;
+if(message.length>300){alert("Messages can contain up to 300 characters.");return;}
+const now=Date.now();
+if(now-lastChatSend<2000)return;
+chatSendButton.disabled=true;
+try{
+const messageRef=push(chatRef);
+await set(messageRef,{
+uid:chatAuth.currentUser.uid,
+username:chatProfile.username,
+role:chatProfile.role,
+driverName:chatProfile.driverName,
+message,
+timestamp:now
+});
+lastChatSend=Date.now();
+chatMessageInput.value="";
+}catch(error){
+console.error("Chat send error:",error);
+alert("Message could not be sent. Please try again.");
+}finally{
+chatSendButton.disabled=!chatProfile;
+}
+});
+
 </script>
 
 <script>
