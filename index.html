@@ -1885,7 +1885,8 @@ async function refreshChatUserList(){
     return;
   }
   entries.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([username,uid])=>{
-    const driver=Object.keys(drivers).find(key=>drivers[key]===uid)||"VIEWER";
+    const driverKey=Object.keys(drivers).find(key=>drivers[key]===uid)||"";
+    const driver=driverKey?(chatDriverList.find(name=>chatIdentityKey(name)===driverKey)||driverKey):"VIEWER";
     const row=document.createElement("div");
     row.style.cssText="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;background:#191919;border:1px solid #333";
     const info=document.createElement("div");
