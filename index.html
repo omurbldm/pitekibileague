@@ -337,6 +337,8 @@ pointer-events:none;
 .live-chat-role{padding:3px 6px;background:#292929;color:#aaa;font-size:8px;font-weight:bold;letter-spacing:1px}
 .live-chat-message.driver .live-chat-role{background:rgba(225,6,0,.16);color:#ff5b55}
 .live-chat-time{margin-left:auto;color:#666;font-size:9px}
+.live-chat-delete{margin-left:8px;padding:4px 7px;background:#292929;border:1px solid #444;color:#aaa;font-family:Arial,sans-serif;font-size:9px;cursor:pointer}
+.live-chat-delete:hover{background:#e10600;border-color:#e10600;color:#fff}
 .live-chat-text{color:#ddd;font-size:12px;line-height:1.6;white-space:pre-wrap}
 .live-chat-compose{display:flex;gap:9px;padding:13px;border-top:1px solid #303030}
 .live-chat-input{flex:1;min-width:0;padding:13px 14px;background:#1a1a1a;border:1px solid #383838;color:#fff;font:12px Arial,sans-serif;outline:none}
@@ -748,8 +750,8 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-import {getDatabase,ref,set,update,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
-import {getAuth,signInWithEmailAndPassword,signInAnonymously} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+import {getDatabase,ref,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+import {getAuth,signInWithEmailAndPassword,signInAnonymously,signOut} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyCtxBohdFdm9pm6yVlX9KGm5PoCuTpTrc4",
@@ -1728,43 +1730,101 @@ submitButton.textContent="ENTER CHAT";
 }
 });
 
-function renderChat(snapshot){
-const data=snapshot.val()||{};
-const messages=Object.entries(data).map(([id,message])=>({id,...message}))
-.filter(message=>message&&typeof message.message==="string")
-.sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
-chatMessages.replaceChildren();
-if(messages.length===0){
-const empty=document.createElement("div");
-empty.className="live-chat-empty";
-empty.textContent="NO MESSAGES YET. START THE CONVERSATION!";
-chatMessages.appendChild(empty);
-return;
-}
-messages.forEach(message=>{
-const item=document.createElement("article");
-item.className="live-chat-message"+(message.role==="DRIVER"?" driver":"");
-const top=document.createElement("div");
-top.className="live-chat-message-top";
-const username=document.createElement("span");
-username.className="live-chat-user";
-username.textContent=message.username||"GUEST";
-const role=document.createElement("span");
-role.className="live-chat-role";
-role.textContent=message.role==="DRIVER"?"DRIVER · "+(message.driverName||""):"VIEWER";
-const time=document.createElement("time");
-time.className="live-chat-time";
-time.textContent=message.timestamp?new Date(message.timestamp).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";
-const body=document.createElement("div");
-body.className="live-chat-text";
-body.textContent=message.message;
-top.append(username,role,time);
-item.append(top,body);
-chatMessages.appendChild(item);
-});
-chatMessages.scrollTop=chatMessages.scrollHeight;
+const CHAT_ADMIN_UID="dtF2CjpDCmbBxit32AnRLjFfEE13";
+
+async function ensureChatAdmin(){
+  if(chatAuth.currentUser?.uid===CHAT_ADMIN_UID)return true;
+
+  const email=prompt("Admin e-posta adresini gir:");
+  if(!email)return false;
+
+  const password=prompt("Admin şifreni gir:");
+  if(!password)return false;
+
+  try{
+    const credential=await signInWithEmailAndPassword(chatAuth,email,password);
+    if(credential.user.uid!==CHAT_ADMIN_UID){
+      await signOut(chatAuth);
+      alert("This account is not authorized to delete other users' messages.");
+      return false;
+    }
+    return true;
+  }catch(error){
+    console.error("Chat admin login error:",error);
+    alert("Admin login failed. Please check your credentials.");
+    return false;
+  }
 }
 
+async function deleteChatMessage(message){
+  const isOwner=chatAuth.currentUser?.uid===message.uid;
+  let isAdmin=chatAuth.currentUser?.uid===CHAT_ADMIN_UID;
+
+  if(!isOwner&&!isAdmin){
+    if(!await ensureChatAdmin())return;
+    isAdmin=chatAuth.currentUser?.uid===CHAT_ADMIN_UID;
+  }
+
+  if(!isOwner&&!isAdmin)return;
+  if(!confirm("Delete this message?"))return;
+
+  try{
+    await remove(ref(chatDatabase,"chat/"+message.id));
+  }catch(error){
+    console.error("Chat delete error:",error);
+    alert("Message could not be deleted. Check your connection and permissions.");
+  }
+}
+
+function renderChat(snapshot){
+  const data=snapshot.val()||{};
+  const messages=Object.entries(data).map(([id,message])=>({id,...message}))
+  .filter(message=>message&&typeof message.message==="string")
+  .sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+  chatMessages.replaceChildren();
+  if(messages.length===0){
+    const empty=document.createElement("div");
+    empty.className="live-chat-empty";
+    empty.textContent="NO MESSAGES YET. START THE CONVERSATION!";
+    chatMessages.appendChild(empty);
+    return;
+  }
+  messages.forEach(message=>{
+    const item=document.createElement("article");
+    item.className="live-chat-message"+(message.role==="DRIVER"?" driver":"");
+    const top=document.createElement("div");
+    top.className="live-chat-message-top";
+    const username=document.createElement("span");
+    username.className="live-chat-user";
+    username.textContent=message.username||"GUEST";
+    const role=document.createElement("span");
+    role.className="live-chat-role";
+    role.textContent=message.role==="DRIVER"?"DRIVER · "+(message.driverName||""):"VIEWER";
+    const time=document.createElement("time");
+    time.className="live-chat-time";
+    time.textContent=message.timestamp?new Date(message.timestamp).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";
+    const body=document.createElement("div");
+    body.className="live-chat-text";
+    body.textContent=message.message;
+    top.append(username,role,time);
+
+    const isOwner=chatAuth.currentUser?.uid===message.uid;
+    const isAdmin=chatAuth.currentUser?.uid===CHAT_ADMIN_UID;
+    if(isOwner||isAdmin){
+      const deleteButton=document.createElement("button");
+      deleteButton.type="button";
+      deleteButton.className="live-chat-delete";
+      deleteButton.textContent="DELETE";
+      deleteButton.setAttribute("aria-label","Delete message");
+      deleteButton.addEventListener("click",()=>deleteChatMessage(message));
+      top.appendChild(deleteButton);
+    }
+
+    item.append(top,body);
+    chatMessages.appendChild(item);
+  });
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+}
 onValue(query(chatRef,orderByChild("timestamp"),limitToLast(100)),renderChat,error=>{
 console.error("Chat read error:",error);
 chatMessages.textContent="CHAT CONNECTION ERROR. PLEASE REFRESH THE PAGE.";
