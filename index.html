@@ -330,7 +330,7 @@ pointer-events:none;
 .live-chat-join:hover,.live-chat-send:hover,.live-chat-submit:hover{background:#b90000}
 .live-chat-feed{height:330px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .live-chat-empty{margin:auto;color:#666;font-size:11px;text-align:center}
-.live-chat-message{padding:11px 13px;background:#191919;border:1px solid #292929;border-left:2px solid var(--chat-accent,#e10600);overflow-wrap:anywhere}
+.live-chat-message{padding:11px 13px;background:#191919;border:1px solid #292929;border-left:2px solid #555;overflow-wrap:anywhere}
 .live-chat-message.driver{border-left-color:var(--chat-accent,#e10600)}
 .live-chat-message-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px}
 .live-chat-user{font-family:'F1 Bold',Arial,sans-serif;font-size:11px;color:var(--chat-accent,#e10600)}
@@ -348,7 +348,7 @@ pointer-events:none;
 .live-chat-modal{position:fixed;inset:0;z-index:40000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.88);backdrop-filter:blur(6px)}
 .live-chat-modal[hidden]{display:none}
 .live-chat-modal-card{position:relative;width:100%;max-width:430px;padding:28px;background:#111;border:1px solid #383838;border-top:4px solid #e10600;box-shadow:0 20px 80px rgba(0,0,0,.7)}
-.live-chat-modal-close{position:absolute;top:10px;right:12px;width:34px;height:34px;border:1px solid #444;background:#1b1b1b;color:#fff;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center}.live-chat-modal-close:hover{background:#e10600;border-color:#e10600}\n.live-chat-modal-card h3{font-family:'F1 Black',Arial,sans-serif;font-size:22px;margin-bottom:8px}
+.live-chat-modal-card h3{font-family:'F1 Black',Arial,sans-serif;font-size:22px;margin-bottom:8px}
 .live-chat-modal-card>p{margin-bottom:22px;color:#888;font-size:11px;line-height:1.6}
 .live-chat-field{display:block;margin:15px 0}
 .live-chat-field span{display:block;margin-bottom:8px;color:#aaa;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1.5px}
@@ -562,22 +562,9 @@ text-align:center;
     <button class="live-chat-send" id="chatSendButton" type="submit" disabled>SEND</button>
   </form>
   <div class="live-chat-note">Be respectful. Messages are public and remain available after the live session ends.</div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px">
-    <button class="live-chat-join" id="chatNewProfileButton" type="button">NEW PROFILE</button>
-    <button class="live-chat-join" id="chatAdminUsersButton" type="button">ADMIN: MANAGE USERS</button>
-  </div>
-</div>
-<div class="live-chat-modal" id="chatAdminUsersModal" hidden>
-  <div class="live-chat-modal-card" role="dialog" aria-modal="true" aria-labelledby="chatAdminUsersTitle" style="max-width:760px;max-height:85vh;overflow:auto">
-    <button class="live-chat-modal-close" id="chatAdminUsersClose" type="button" aria-label="Close user management">×</button>
-    <h3 id="chatAdminUsersTitle">CHAT USER MANAGEMENT</h3>
-    <p>Registered users. Admin can edit usernames and driver assignments or delete accounts.</p>
-    <div id="chatAdminUsersList" style="display:grid;gap:9px"></div>
-  </div>
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
-    <button class="live-chat-modal-close" id="chatProfileClose" type="button" aria-label="Close profile window">×</button>
     <h3 id="chatProfileTitle">JOIN THE GRID</h3>
     <p>Choose a username and tell the chat whether you're a driver or a viewer.</p>
     <label class="live-chat-field"><span>USERNAME</span><input id="chatUsername" type="text" minlength="2" maxlength="20" required placeholder="Your username" autocomplete="nickname"></label>
@@ -764,7 +751,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
-import {getDatabase,ref,get,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
+import {getDatabase,ref,set,update,remove,onValue,serverTimestamp,push,query,orderByChild,limitToLast} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-database.js";
 import {getAuth,signInWithEmailAndPassword,signInAnonymously,signOut} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
 
 const firebaseConfig={
@@ -1671,11 +1658,6 @@ const chatForm=document.getElementById("chatForm");
 const chatMessageInput=document.getElementById("chatMessageInput");
 const chatSendButton=document.getElementById("chatSendButton");
 const chatProfileModal=document.getElementById("chatProfileModal");
-const chatAdminUsersModal=document.getElementById("chatAdminUsersModal");
-const chatAdminUsersList=document.getElementById("chatAdminUsersList");
-const chatAdminUsersClose=document.getElementById("chatAdminUsersClose");
-const chatNewProfileButton=document.getElementById("chatNewProfileButton");
-const chatProfileClose=document.getElementById("chatProfileClose");
 const chatProfileForm=document.getElementById("chatProfileForm");
 const chatUsername=document.getElementById("chatUsername");
 const chatRole=document.getElementById("chatRole");
@@ -1697,26 +1679,6 @@ const CHAT_PROFILE_STORAGE_KEY="pitEkibiChatProfileV1";
 let chatProfile=null;
 let lastChatSend=0;
 
-function chatIdentityKey(value){
-return value.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-}
-
-async function reserveChatIdentity(profile){
-const uid=chatAuth.currentUser?.uid;
-if(!uid)throw new Error("Chat authentication is required.");
-const usernameKey=chatIdentityKey(profile.username);
-if(!usernameKey)throw new Error("Invalid username.");
-const claims={
-["chatUsernames/"+usernameKey]:uid
-};
-if(profile.role==="DRIVER"){
-const driverKey=chatIdentityKey(profile.driverName);
-if(!driverKey)throw new Error("Invalid driver.");
-claims["chatDrivers/"+driverKey]=uid;
-}
-await update(ref(chatDatabase),claims);
-}
-
 function activateChatProfile(profile){
 if(profile.role==="VIEWER"&&!/^#[0-9a-f]{6}$/i.test(profile.color||""))profile.color="#e10600";
 chatProfile=profile;
@@ -1734,42 +1696,10 @@ chatProfileModal.hidden=false;
 chatUsername.focus();
 }
 function closeChatProfile(){chatProfileModal.hidden=true;}
-chatProfileClose.addEventListener("click",closeChatProfile);
 
 chatJoinButton.addEventListener("click",()=>{
 if(chatProfile){chatMessageInput.focus();return;}
 openChatProfile();
-});
-
-chatNewProfileButton.addEventListener("click",async()=>{
-  try{
-    if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-    if(chatProfile){
-      const uid=chatAuth.currentUser.uid;
-      const updates={};
-      updates["chatUsernames/"+chatIdentityKey(chatProfile.username)]=null;
-      if(chatProfile.role==="DRIVER")updates["chatDrivers/"+chatIdentityKey(chatProfile.driverName)]=null;
-      updates["chatProfiles/"+uid]=null;
-      await update(ref(chatDatabase),updates);
-    }
-    localStorage.removeItem(CHAT_PROFILE_STORAGE_KEY);
-    chatProfile=null;
-    chatJoinButton.textContent="JOIN CHAT";
-    chatJoinButton.disabled=false;
-    chatMessageInput.disabled=true;
-    chatSendButton.disabled=true;
-    chatMessageInput.placeholder="Join the chat to send a message...";
-    chatUsername.value="";
-    chatRole.value="VIEWER";
-    chatDriverName.value="";
-    chatDriverField.hidden=true;
-    chatDriverName.required=false;
-    chatViewerColorField.hidden=false;
-    openChatProfile();
-  }catch(error){
-    console.error("New profile error:",error);
-    alert("Could not release the current profile. Check your connection and Firebase Rules.");
-  }
 });
 
 chatRole.addEventListener("change",()=>{
@@ -1801,16 +1731,12 @@ submitButton.textContent="CONNECTING...";
 try{
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
 const profile={username,role,driverName,color};
-await reserveChatIdentity(profile);
-await set(ref(chatDatabase,"chatProfiles/"+chatAuth.currentUser.uid),profile);
 localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));
 activateChatProfile(profile);
 chatMessageInput.focus();
 }catch(error){
 console.error("Chat sign-in/profile save error:",error);
-chatProfileError.textContent=error.code==="PERMISSION_DENIED"||error.code==="database/permission-denied"
-?"This username or driver is already taken. Please choose another."
-:"Could not connect or save your profile. Please try again.";
+chatProfileError.textContent="Could not connect or save your profile. Please try again.";
 }finally{
 submitButton.disabled=false;
 submitButton.textContent="ENTER CHAT";
@@ -1822,7 +1748,7 @@ submitButton.textContent="ENTER CHAT";
 try{
 const saved=localStorage.getItem(CHAT_PROFILE_STORAGE_KEY);
 if(!saved)return;
-let profile=JSON.parse(saved);
+const profile=JSON.parse(saved);
 if(!profile||typeof profile.username!=="string"||
 profile.username.trim().length<2||profile.username.trim().length>20||
 !["DRIVER","VIEWER"].includes(profile.role)||
@@ -1831,15 +1757,9 @@ localStorage.removeItem(CHAT_PROFILE_STORAGE_KEY);
 return;
 }
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-const remoteProfile=await get(ref(chatDatabase,"chatProfiles/"+chatAuth.currentUser.uid));
-if(remoteProfile.exists())profile=remoteProfile.val();
-await reserveChatIdentity(profile);
 activateChatProfile(profile);
 }catch(error){
 console.error("Chat profile restore error:",error);
-localStorage.removeItem(CHAT_PROFILE_STORAGE_KEY);
-chatProfileError.textContent="Your saved username or driver is already in use. Please choose a new profile.";
-chatProfileModal.hidden=false;
 }
 })();
 
@@ -1868,114 +1788,6 @@ async function ensureChatAdmin(){
     return false;
   }
 }
-
-async function refreshChatUserList(){
-  const [userSnap,driverSnap]=await Promise.all([
-    get(ref(chatDatabase,"chatUsernames")),
-    get(ref(chatDatabase,"chatDrivers"))
-  ]);
-  const users=userSnap.val()||{};
-  const drivers=driverSnap.val()||{};
-  chatAdminUsersList.replaceChildren();
-  const entries=Object.entries(users);
-  if(!entries.length){
-    const empty=document.createElement("p");
-    empty.textContent="No registered users.";
-    chatAdminUsersList.appendChild(empty);
-    return;
-  }
-  entries.sort((a,b)=>a[0].localeCompare(b[0])).forEach(([username,uid])=>{
-    const driverKey=Object.keys(drivers).find(key=>drivers[key]===uid)||"";
-    const driver=driverKey?(chatDriverList.find(name=>chatIdentityKey(name)===driverKey)||driverKey):"VIEWER";
-    const row=document.createElement("div");
-    row.style.cssText="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;background:#191919;border:1px solid #333";
-    const info=document.createElement("div");
-    info.style.cssText="flex:1;min-width:150px;color:#fff;font-size:12px";
-    info.textContent=username+" · "+(driver==="VIEWER"?"VIEWER":driver);
-    const edit=document.createElement("button");
-    edit.type="button";edit.className="live-chat-delete";edit.textContent="EDIT";
-    edit.addEventListener("click",()=>editChatUser(username,uid,driver));
-    const del=document.createElement("button");
-    del.type="button";del.className="live-chat-delete";del.textContent="DELETE";
-    del.addEventListener("click",()=>deleteChatUser(username,uid));
-    row.append(info,edit,del);
-    chatAdminUsersList.appendChild(row);
-  });
-}
-async function editChatUser(oldUsername,uid,oldDriver){
-  const nextUsername=prompt("New username:",oldUsername);
-  if(nextUsername===null)return;
-  const username=nextUsername.trim().replace(/\\s+/g," ");
-  if(username.length<2||username.length>20){alert("Username must be 2–20 characters.");return;}
-  const roleChoice=prompt("Type VIEWER or DRIVER:",oldDriver==="VIEWER"?"VIEWER":"DRIVER");
-  if(roleChoice===null)return;
-  const role=roleChoice.trim().toUpperCase();
-  if(!["VIEWER","DRIVER"].includes(role)){alert("Choose VIEWER or DRIVER.");return;}
-  let driverName="";
-  if(role==="DRIVER"){
-    driverName=prompt("Driver name (must match the driver list):",oldDriver==="VIEWER"?"":oldDriver);
-    if(driverName===null)return;
-    driverName=driverName.trim().toUpperCase();
-    if(!chatDriverList.includes(driverName)){alert("That driver is not in the driver list.");return;}
-  }
-  const oldKey=oldUsername;
-  const newKey=chatIdentityKey(username);
-  const newDriverKey=driverName?chatIdentityKey(driverName):"";
-  try{
-    const [nameSnap,driverSnap]=await Promise.all([
-      get(ref(chatDatabase,"chatUsernames/"+newKey)),
-      newDriverKey?get(ref(chatDatabase,"chatDrivers/"+newDriverKey)):Promise.resolve({val:()=>null})
-    ]);
-    if(nameSnap.exists()&&nameSnap.val()!==uid){alert("That username is already taken.");return;}
-    if(driverSnap.exists()&&driverSnap.val()!==uid){alert("That driver is already assigned to another user.");return;}
-    const updates={};
-    if(oldKey!==newKey){
-      updates["chatUsernames/"+oldKey]=null;
-      updates["chatUsernames/"+newKey]=uid;
-    }
-    if(oldDriver!=="VIEWER"&&(!newDriverKey||chatIdentityKey(oldDriver)!==newDriverKey))
-      updates["chatDrivers/"+chatIdentityKey(oldDriver)]=null;
-    if(newDriverKey)updates["chatDrivers/"+newDriverKey]=uid;
-    updates["chatProfiles/"+uid]={username,role,driverName,color:"#e10600"};
-    await update(ref(chatDatabase),updates);
-    await refreshChatUserList();
-    alert("Profile updated. The user will receive the new profile after refreshing the site.");
-  }catch(error){
-    console.error("Admin profile edit error:",error);
-    alert("Could not edit profile. Check Firebase Rules.");
-  }
-}
-async function deleteChatUser(username,uid){
-  if(!confirm(username+" will be removed, including their reserved driver and chat messages. Continue?"))return;
-  try{
-    const [driversSnap,messagesSnap]=await Promise.all([
-      get(ref(chatDatabase,"chatDrivers")),
-      get(ref(chatDatabase,"chat"))
-    ]);
-    const updates={"chatUsernames/"+username:null,"chatProfiles/"+uid:null};
-    Object.entries(driversSnap.val()||{}).forEach(([driver,owner])=>{if(owner===uid)updates["chatDrivers/"+driver]=null;});
-    Object.entries(messagesSnap.val()||{}).forEach(([id,message])=>{if(message&&message.uid===uid)updates["chat/"+id]=null;});
-    await update(ref(chatDatabase),updates);
-    await refreshChatUserList();
-  }catch(error){
-    console.error("Admin user delete error:",error);
-    alert("Could not delete user. Check Firebase Rules.");
-  }
-}
-async function manageChatUsers(){
-  if(!await ensureChatAdmin())return;
-  try{
-    await refreshChatUserList();
-    chatAdminUsersModal.hidden=false;
-  }catch(error){
-    console.error("User list error:",error);
-    alert("Could not load users. Check Firebase Rules.");
-  }
-}
-chatAdminUsersClose.addEventListener("click",()=>chatAdminUsersModal.hidden=true);
-chatAdminUsersModal.addEventListener("click",event=>{if(event.target===chatAdminUsersModal)chatAdminUsersModal.hidden=true;});
-document.getElementById("chatAdminUsersButton")?.addEventListener("click",manageChatUsers);
-
 
 async function deleteChatMessage(message){
   const isOwner=chatAuth.currentUser?.uid===message.uid;
