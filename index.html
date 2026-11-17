@@ -577,7 +577,8 @@ text-align:center;
 </div>
 <div class="live-chat-modal" id="chatProfileModal" hidden>
   <form class="live-chat-modal-card" id="chatProfileForm" role="dialog" aria-modal="true" aria-labelledby="chatProfileTitle">
-    <button class="live-chat-modal-close" id="chatProfileClose" type="button" aria-label="Close profile window">×</button>\n    <h3 id="chatProfileTitle">JOIN THE GRID</h3>
+    <button class="live-chat-modal-close" id="chatProfileClose" type="button" aria-label="Close profile window">×</button>
+    <h3 id="chatProfileTitle">JOIN THE GRID</h3>
     <p>Choose a username and tell the chat whether you're a driver or a viewer.</p>
     <label class="live-chat-field"><span>USERNAME</span><input id="chatUsername" type="text" minlength="2" maxlength="20" required placeholder="Your username" autocomplete="nickname"></label>
     <label class="live-chat-field"><span>WHO ARE YOU?</span><select id="chatRole" required><option value="VIEWER">I'M A VIEWER</option><option value="DRIVER">I'M A DRIVER</option></select></label>
@@ -1673,7 +1674,8 @@ const chatProfileModal=document.getElementById("chatProfileModal");
 const chatAdminUsersModal=document.getElementById("chatAdminUsersModal");
 const chatAdminUsersList=document.getElementById("chatAdminUsersList");
 const chatAdminUsersClose=document.getElementById("chatAdminUsersClose");
-const chatNewProfileButton=document.getElementById("chatNewProfileButton");\nconst chatProfileClose=document.getElementById("chatProfileClose");
+const chatNewProfileButton=document.getElementById("chatNewProfileButton");
+const chatProfileClose=document.getElementById("chatProfileClose");
 const chatProfileForm=document.getElementById("chatProfileForm");
 const chatUsername=document.getElementById("chatUsername");
 const chatRole=document.getElementById("chatRole");
@@ -1731,7 +1733,8 @@ chatProfileError.textContent="";
 chatProfileModal.hidden=false;
 chatUsername.focus();
 }
-function closeChatProfile(){chatProfileModal.hidden=true;}\nchatProfileClose.addEventListener("click",closeChatProfile);
+function closeChatProfile(){chatProfileModal.hidden=true;}
+chatProfileClose.addEventListener("click",closeChatProfile);
 
 chatJoinButton.addEventListener("click",()=>{
 if(chatProfile){chatMessageInput.focus();return;}
