@@ -331,11 +331,11 @@ pointer-events:none;
 .live-chat-feed{height:330px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .live-chat-empty{margin:auto;color:#666;font-size:11px;text-align:center}
 .live-chat-message{padding:11px 13px;background:#191919;border:1px solid #292929;border-left:2px solid #555;overflow-wrap:anywhere}
-.live-chat-message.driver{border-left-color:#e10600}
+.live-chat-message.driver{border-left-color:var(--chat-accent,#e10600)}
 .live-chat-message-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px}
-.live-chat-user{font-family:'F1 Bold',Arial,sans-serif;font-size:11px;color:#fff}
+.live-chat-user{font-family:'F1 Bold',Arial,sans-serif;font-size:11px;color:var(--chat-accent,#e10600)}
 .live-chat-role{padding:3px 6px;background:#292929;color:#aaa;font-size:8px;font-weight:bold;letter-spacing:1px}
-.live-chat-message.driver .live-chat-role{background:rgba(225,6,0,.16);color:#ff5b55}
+.live-chat-message.driver .live-chat-role{background:color-mix(in srgb,var(--chat-accent,#e10600) 16%,transparent);color:var(--chat-accent,#e10600)}
 .live-chat-time{margin-left:auto;color:#666;font-size:9px}
 .live-chat-delete{margin-left:8px;padding:4px 7px;background:#292929;border:1px solid #444;color:#aaa;font-family:Arial,sans-serif;font-size:9px;cursor:pointer}
 .live-chat-delete:hover{background:#e10600;border-color:#e10600;color:#fff}
@@ -569,6 +569,7 @@ text-align:center;
     <p>Choose a username and tell the chat whether you're a driver or a viewer.</p>
     <label class="live-chat-field"><span>USERNAME</span><input id="chatUsername" type="text" minlength="2" maxlength="20" required placeholder="Your username" autocomplete="nickname"></label>
     <label class="live-chat-field"><span>WHO ARE YOU?</span><select id="chatRole" required><option value="VIEWER">I'M A VIEWER</option><option value="DRIVER">I'M A DRIVER</option></select></label>
+    <label class="live-chat-field" id="chatViewerColorField"><span>YOUR CHAT COLOR</span><input id="chatViewerColor" type="color" value="#e10600" aria-label="Choose your chat color"></label>
     <label class="live-chat-field" id="chatDriverField" hidden><span>SELECT YOUR DRIVER NAME</span><select id="chatDriverName"><option value="">SELECT DRIVER</option></select></label>
     <button class="live-chat-submit" type="submit">ENTER CHAT</button>
     <div class="live-chat-error" id="chatProfileError" role="alert"></div>
@@ -1662,6 +1663,8 @@ const chatUsername=document.getElementById("chatUsername");
 const chatRole=document.getElementById("chatRole");
 const chatDriverField=document.getElementById("chatDriverField");
 const chatDriverName=document.getElementById("chatDriverName");
+const chatViewerColorField=document.getElementById("chatViewerColorField");
+const chatViewerColor=document.getElementById("chatViewerColor");
 const chatProfileError=document.getElementById("chatProfileError");
 const chatDriverList=["EMIR","KEMAN","TUNA","TLOU","RAIZER","TOPRAK EGE","OMUR","AHMAD","MUSTAFA","TOPRAK SEZER","RABIYA","GIZEM","EREN","VETTELIZM","EGEMEN","HALİL","BARIŞ","UMUD","BERKE","YAVUZ"];
 
@@ -1677,6 +1680,7 @@ let chatProfile=null;
 let lastChatSend=0;
 
 function activateChatProfile(profile){
+if(profile.role==="VIEWER"&&!/^#[0-9a-f]{6}$/i.test(profile.color||""))profile.color="#e10600";
 chatProfile=profile;
 chatJoinButton.textContent="CONNECTED";
 chatJoinButton.disabled=true;
@@ -1702,6 +1706,7 @@ chatRole.addEventListener("change",()=>{
 const isDriver=chatRole.value==="DRIVER";
 chatDriverField.hidden=!isDriver;
 chatDriverName.required=isDriver;
+chatViewerColorField.hidden=isDriver;
 if(!isDriver)chatDriverName.value="";
 });
 
@@ -1711,6 +1716,7 @@ chatProfileError.textContent="";
 const username=chatUsername.value.trim().replace(/\s+/g," ");
 const role=chatRole.value;
 const driverName=role==="DRIVER"?chatDriverName.value:"";
+const color=role==="VIEWER"?chatViewerColor.value:"#e10600";
 if(username.length<2||username.length>20){
 chatProfileError.textContent="Username must be between 2 and 20 characters.";
 return;
@@ -1724,7 +1730,7 @@ submitButton.disabled=true;
 submitButton.textContent="CONNECTING...";
 try{
 if(!chatAuth.currentUser)await signInAnonymously(chatAuth);
-const profile={username,role,driverName};
+const profile={username,role,driverName,color};
 localStorage.setItem(CHAT_PROFILE_STORAGE_KEY,JSON.stringify(profile));
 activateChatProfile(profile);
 chatMessageInput.focus();
@@ -1827,6 +1833,10 @@ function renderChat(snapshot){
     const role=document.createElement("span");
     role.className="live-chat-role";
     role.textContent=message.role==="DRIVER"?"DRIVER · "+(message.driverName||""):"VIEWER";
+    const teamColors={"EMIR":"#0090ff","KEMAN":"#0090ff","TUNA":"#00665e","TLOU":"#00665e","RAIZER":"#bb1e10","TOPRAK EGE":"#bb1e10","OMUR":"#e10600","AHMAD":"#e10600","MUSTAFA":"#ffffff","TOPRAK SEZER":"#ffffff","RABIYA":"#ff8000","GIZEM":"#ff8000","EREN":"#00a19c","VETTELIZM":"#00a19c","EGEMEN":"#6692ff","HALİL":"#6692ff","BARIŞ":"#3671c6","UMUD":"#3671c6","BERKE":"#005aff","YAVUZ":"#005aff"};
+    const viewerColor=/^#[0-9a-f]{6}$/i.test(message.color||"")?message.color:"#e10600";
+    const accent=message.role==="DRIVER"?(teamColors[message.driverName]||"#e10600"):viewerColor;
+    item.style.setProperty("--chat-accent",accent);
     const time=document.createElement("time");
     time.className="live-chat-time";
     time.textContent=message.timestamp?new Date(message.timestamp).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";
@@ -1871,6 +1881,7 @@ uid:chatAuth.currentUser.uid,
 username:chatProfile.username,
 role:chatProfile.role,
 driverName:chatProfile.driverName,
+color:chatProfile.role==="VIEWER"?chatProfile.color:"#e10600",
 message,
 timestamp:now
 });
