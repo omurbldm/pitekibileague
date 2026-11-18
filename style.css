@@ -490,3 +490,59 @@ footer span {
         font-size: 48px;
     }
 }
+
+
+/* MOBILE: PREVENT THE HOMEPAGE FROM MOVING SIDEWAYS */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+@media (max-width: 850px) {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        position: relative;
+        overflow-x: clip;
+    }
+
+    header,
+    main,
+    section,
+    footer,
+    .hero,
+    .current-race,
+    .race-card,
+    .live-layout,
+    .live-watch-card,
+    .live-chat,
+    .video-grid,
+    .teams-grid {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    img,
+    video,
+    iframe,
+    table {
+        max-width: 100%;
+    }
+
+    .hero,
+    section:not(.hero) {
+        width: 100%;
+    }
+
+    .hero > *,
+    .current-race > *,
+    .section-heading > * {
+        min-width: 0;
+    }
+}
