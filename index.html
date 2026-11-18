@@ -3202,41 +3202,54 @@ document.addEventListener("keydown",event => {
 ================================================== */
 (() => {
   const drivers = [
-    {name:"EMIR",number:"10",team:"ALPINE",key:"alpine"},
-    {name:"KEMAN",number:"43",team:"ALPINE",key:"alpine"},
-    {name:"TUNA",number:"14",team:"ASTON MARTIN",key:"aston"},
-    {name:"TLOU",number:"18",team:"ASTON MARTIN",key:"aston"},
-    {name:"RAIZER",number:"5",team:"AUDI",key:"audi"},
-    {name:"TOPRAK EGE",number:"27",team:"AUDI",key:"audi"},
-    {name:"OMUR",number:"16",team:"FERRARI",key:"ferrari"},
-    {name:"AHMAD",number:"44",team:"FERRARI",key:"ferrari"},
-    {name:"MUSTAFA",number:"87",team:"HAAS F1 TEAM",key:"haas"},
-    {name:"TOPRAK SEZER",number:"31",team:"HAAS F1 TEAM",key:"haas"},
-    {name:"RABIYA",number:"81",team:"MCLAREN",key:"mclaren"},
-    {name:"GIZEM",number:"4",team:"MCLAREN",key:"mclaren"},
-    {name:"EREN",number:"12",team:"MERCEDES",key:"mercedes"},
-    {name:"VETTELIZM",number:"63",team:"MERCEDES",key:"mercedes"},
-    {name:"EGEMEN",number:"41",team:"RACING BULLS",key:"vcarb"},
-    {name:"AHMET KEREM",number:"30",team:"RACING BULLS · FORMER",key:"vcarb"},
-    {name:"HALİL",number:"30",team:"RACING BULLS",key:"vcarb"},
-    {name:"BARIŞ",number:"3",team:"RED BULL RACING",key:"redbull"},
-    {name:"UMUD",number:"6",team:"RED BULL RACING",key:"redbull"},
-    {name:"BERKE",number:"55",team:"WILLIAMS",key:"williams"},
-    {name:"YAVUZ",number:"23",team:"WILLIAMS",key:"williams"}
+    { name:"MUSTAFA", number:"87", team:"HAAS F1 TEAM", key:"haas", points:135, pos:1 },
+    { name:"OMUR", number:"16", team:"SCUDERIA FERRARI", key:"ferrari", points:130, pos:2 },
+    { name:"TOPRAK SEZER", number:"31", team:"HAAS F1 TEAM", key:"haas", points:125, pos:3 },
+    { name:"RABIYA", number:"81", team:"MCLAREN MERCEDES", key:"mclaren", points:123, pos:4 },
+    { name:"RAIZER", number:"5", team:"AUDI F1 TEAM", key:"audi", points:118, pos:5 },
+    { name:"EGEMEN", number:"41", team:"RACING BULLS", key:"vcarb", points:96, pos:6 },
+    { name:"EMIR", number:"10", team:"BWT ALPINE", key:"alpine", points:94, pos:7 },
+    { name:"AHMAD", number:"44", team:"SCUDERIA FERRARI", key:"ferrari", points:90, pos:8 },
+    { name:"HALİL", number:"30", team:"RACING BULLS", key:"vcarb", points:90, pos:9 },
+    { name:"TUNA", number:"14", team:"ASTON MARTIN", key:"aston", points:81, pos:10 },
+    { name:"TLOU", number:"18", team:"ASTON MARTIN", key:"aston", points:80, pos:11 },
+    { name:"BARIŞ", number:"3", team:"RED BULL RACING", key:"redbull", points:78, pos:12 },
+    { name:"UMUD", number:"6", team:"RED BULL RACING", key:"redbull", points:68, pos:13 },
+    { name:"TOPRAK EGE", number:"27", team:"AUDI F1 TEAM", key:"audi", points:55, pos:14 },
+    { name:"EREN", number:"12", team:"MERCEDES AMG F1", key:"mercedes", points:54, pos:15 },
+    { name:"VETTELIZM", number:"63", team:"MERCEDES AMG F1", key:"mercedes", points:45, pos:16 },
+    { name:"AHMET KEREM", number:"NO NUMBER", team:"RACING BULLS (FORMER DRIVER)", key:"vcarb", points:39, pos:17 },
+    { name:"KEMAN", number:"43", team:"BWT ALPINE", key:"alpine", points:36, pos:18 },
+    { name:"GIZEM", number:"4", team:"MCLAREN MERCEDES", key:"mclaren", points:31, pos:19 },
+    { name:"YAVUZ", number:"23", team:"WILLIAMS F1 TEAM", key:"williams", points:30, pos:20 },
+    { name:"BERKE", number:"55", team:"WILLIAMS F1 TEAM", key:"williams", points:26, pos:21 }
   ];
 
   const teams = [
-    {name:"ALPINE",key:"alpine"},
-    {name:"ASTON MARTIN",key:"aston"},
-    {name:"AUDI",key:"audi"},
-    {name:"FERRARI",key:"ferrari"},
-    {name:"HAAS F1 TEAM",key:"haas"},
-    {name:"MCLAREN",key:"mclaren"},
-    {name:"MERCEDES",key:"mercedes"},
-    {name:"RACING BULLS",key:"vcarb"},
-    {name:"RED BULL RACING",key:"redbull"},
-    {name:"WILLIAMS",key:"williams"}
+    { name:"HAAS F1 TEAM", key:"haas", points:257, pos:1 },
+    { name:"SCUDERIA FERRARI", key:"ferrari", points:220, pos:2 },
+    { name:"RED BULL RACING", key:"redbull", points:190, pos:3 },
+    { name:"RACING BULLS", key:"vcarb", points:181, pos:4 },
+    { name:"AUDI F1 TEAM", key:"audi", points:177, pos:5 },
+    { name:"ASTON MARTIN", key:"aston", points:161, pos:6 },
+    { name:"MCLAREN MERCEDES", key:"mclaren", points:154, pos:7 },
+    { name:"BWT ALPINE", key:"alpine", points:130, pos:8 },
+    { name:"MERCEDES AMG F1", key:"mercedes", points:99, pos:9 },
+    { name:"WILLIAMS F1 TEAM", key:"williams", points:56, pos:10 }
   ];
+
+  const colors = {
+    ferrari:"#E10600",
+    alpine:"#0090FF",
+    mclaren:"#FF8000",
+    audi:"#D50000",
+    mercedes:"#00D2BE",
+    haas:"#B6BABD",
+    williams:"#005AFF",
+    redbull:"#3671C6",
+    vcarb:"#6692FF",
+    aston:"#006F62"
+  };
 
   const colors = {
     ferrari:"#E10600",
@@ -3442,6 +3455,10 @@ document.addEventListener("keydown",event => {
     .race-result-highlights > div { min-width:0; padding:13px; background:#191919; border:1px solid #303030; }
     .race-result-highlights span { display:block; margin-bottom:8px; color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
     .race-result-highlights strong { display:block; overflow-wrap:anywhere; color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:11px; }
+    .race-driver-name { font-family:'F1 Bold',Arial,sans-serif; font-weight:bold; }
+    .race-result-table .standing-name { color:var(--driver-team-color)!important; }
+    .race-result-table .standing-points { color:white!important; }
+    .standing-points { width:90px; color:white!important; text-align:right; font-family:'F1 Bold',Arial,sans-serif!important; font-size:15px!important; font-weight:bold; }
     .race-result-table-wrap { width:100%; overflow-x:auto; border:1px solid #303030; }
     .race-result-table { min-width:620px; }
     .race-results-empty { padding:28px!important; color:#777!important; text-align:center; font-size:10px!important; letter-spacing:1px; }
@@ -3538,51 +3555,72 @@ document.addEventListener("keydown",event => {
     return [...list].sort((a,b) => b.points !== a.points ? b.points-a.points : a.pos-b.pos);
   }
 
+  function sortByPoints(list) {
+    return [...list].sort((a,b) => b.points - a.points || a.pos - b.pos);
+  }
+
   function renderDrivers() {
     tableWrap.hidden = false; raceGrid.hidden = true;
-    head.innerHTML = '<tr><th>POS</th><th>DRIVER</th><th>TEAM</th></tr>';
+    head.innerHTML = '<tr><th>POS</th><th>DRIVER</th><th>TEAM</th><th style="text-align:right">PTS</th></tr>';
     body.innerHTML = "";
-    drivers.forEach((driver,index) => {
+    sortByPoints(drivers).forEach((driver,index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
         <td class="standing-name"><span class="standing-driver-number" style="--standing-color:${colors[driver.key]}">${driver.number === "NO NUMBER" ? "—" : "#" + driver.number}</span>${driver.name}</td>
         <td class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[driver.key]}"></span>${driver.team}</td>
-        `;
+        <td class="standing-points">${driver.points}</td>`;
       body.appendChild(row);
     });
-    note.textContent = "DRIVER LINE-UP · NO POINTS DISPLAYED";
+    note.textContent = "21 DRIVERS · OFFICIAL CHAMPIONSHIP POINTS";
   }
 
   function renderTeams() {
     tableWrap.hidden = false; raceGrid.hidden = true;
-    head.innerHTML = '<tr><th>POS</th><th>CONSTRUCTOR</th></tr>';
+    head.innerHTML = '<tr><th>POS</th><th>CONSTRUCTOR</th><th style="text-align:right">PTS</th></tr>';
     body.innerHTML = "";
-    teams.forEach((team,index) => {
+    sortByPoints(teams).forEach((team,index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
         <td class="standing-name"><span class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[team.key]}"></span>${team.name}</span></td>
-        `;
+        <td class="standing-points">${team.points}</td>`;
       body.appendChild(row);
     });
-    note.textContent = "CONSTRUCTOR LINE-UP · NO POINTS DISPLAYED";
+    note.textContent = "10 CONSTRUCTORS · OFFICIAL CHAMPIONSHIP POINTS";
+  }
+
+  function teamColorForName(teamName) {
+    const normalized = String(teamName || "").toUpperCase();
+    const match = teams.find(team => normalized.includes(team.name.toUpperCase()) ||
+      team.name.toUpperCase().includes(normalized));
+    return match ? colors[match.key] : "#ffffff";
   }
 
   function openRace(race) {
     section.querySelector("#raceResultRound").textContent = "ROUND " + String(race.round).padStart(2,"0");
     section.querySelector("#raceResultTitle").textContent = race.name.toUpperCase() + " GRAND PRIX";
-    section.querySelector("#raceResultWinner").textContent = race.winner || "—";
+    const winnerEl = section.querySelector("#raceResultWinner");
+    winnerEl.textContent = race.winner || "—";
+    winnerEl.style.color = teamColorForName(race.team);
     section.querySelector("#raceResultTeam").textContent = race.team || "—";
-    section.querySelector("#raceResultFastest").textContent = race.fastestLap ? race.fastestLap + (race.fastestTime ? " · " + race.fastestTime : "") : "—";
-    section.querySelector("#raceResultPole").textContent = race.pole ? race.pole + (race.poleTime ? " · " + race.poleTime : "") : "—";
-    section.querySelector("#raceResultDay").textContent = race.day || "—";
+    const fastestEl = section.querySelector("#raceResultFastest");
+    fastestEl.textContent = race.fastestLap ? race.fastestLap + (race.fastestTime ? " · " + race.fastestTime : "") : "—";
+    fastestEl.style.color = teamColorForName((drivers.find(d => d.name.toUpperCase() === String(race.fastestLap || "").toUpperCase()) || {}).team);
+    const poleEl = section.querySelector("#raceResultPole");
+    poleEl.textContent = race.pole ? race.pole + (race.poleTime ? " · " + race.poleTime : "") : "—";
+    const poleDriver = drivers.find(d => d.name.toUpperCase() === String(race.pole || "").toUpperCase());
+    poleEl.style.color = poleDriver ? colors[poleDriver.key] : "#fff";
+    const dayEl = section.querySelector("#raceResultDay");
+    dayEl.textContent = race.day || "—";
+    const dayDriver = drivers.find(d => d.name.toUpperCase() === String(race.day || "").toUpperCase());
+    dayEl.style.color = dayDriver ? colors[dayDriver.key] : "#fff";
     const resultBody = section.querySelector("#raceResultBody");
     if (!race.results.length) {
       resultBody.innerHTML = '<tr><td colspan="4" class="race-results-empty">RESULTS WILL BE ADDED SOON.</td></tr>';
     } else {
       resultBody.innerHTML = race.results.map((result,index) => `
-        <tr><td class="standing-position">${result.position || index+1}</td><td class="standing-name">${result.driver || "—"}</td><td>${result.team || "—"}</td><td>${result.grid || "—"}</td></tr>`).join("");
+        <tr><td class="standing-position">${result.position || index+1}</td><td class="standing-name" style="--driver-team-color:${teamColorForName(result.team)}">${result.driver || "—"}</td><td>${result.team || "—"}</td><td>${result.grid || "—"}</td></tr>`).join("");
     }
     modal.classList.add("active"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
   }
