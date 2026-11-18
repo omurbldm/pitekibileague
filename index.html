@@ -438,7 +438,6 @@ text-align:center;
 .videos-modal-header h2{font-size:19px}
 .all-videos-grid{grid-template-columns:1fr}
 }
-
 </style>
 </head>
 
@@ -446,7 +445,7 @@ text-align:center;
 <header>
 <div class="logo">PIT EKIBI <span>LEAGUE</span></div>
 <nav>
-<a href="#home">HOME</a><a href="#live">LIVE</a><a href="#race">RACE CENTER</a><a href="#teams">TEAMS</a><a href="#videos">VIDEOS</a><a href="#standings">RESULTS</a>
+<a href="#home">HOME</a><a href="#live">LIVE</a><a href="#race">RACE CENTER</a><a href="#teams">TEAMS</a><a href="#videos">VIDEOS</a><a href="#standings">STANDINGS</a>
 </nav>
 </header>
 
@@ -623,7 +622,6 @@ text-align:center;
 </div>
 </section>
 
-
 <section id="teams">
 <div class="eyebrow">MEET THE GRID</div>
 <h2 class="section-title">THE GRID</h2>
@@ -757,7 +755,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 </div>
 
 <section id="standings">
-<h2 class="section-title">RESULTS</h2>
+<h2 class="section-title">DRIVER STANDINGS</h2>
 <div class="race-card"><p>Championship standings will appear here.</p></div>
 </section>
 </main>
@@ -1979,27 +1977,27 @@ chatSendButton.disabled=!chatProfile;
 /* PIT EKIBI LEAGUE - DRIVERS SECTION */
 (() => {
 const drivers = [
-  {name:"EMIR",number:"10",team:"ALPINE",key:"alpine",photo:"images/emir.png"},
-  {name:"KEMAN",number:"43",team:"ALPINE",key:"alpine",photo:"images/keman.png"},
-  {name:"TUNA",number:"14",team:"ASTON MARTIN",key:"aston"},
-  {name:"TLOU",number:"18",team:"ASTON MARTIN",key:"aston"},
-  {name:"RAIZER",number:"5",team:"AUDI",key:"audi"},
-  {name:"TOPRAK EGE",number:"27",team:"AUDI",key:"audi"},
-  {name:"OMUR",number:"16",team:"FERRARI",key:"ferrari",photo:"images/omur (1).png"},
-  {name:"AHMAD",number:"44",team:"FERRARI",key:"ferrari",photo:"images/ahmad.png"},
-  {name:"MUSTAFA",number:"87",team:"HAAS F1 TEAM",key:"haas"},
-  {name:"TOPRAK SEZER",number:"31",team:"HAAS F1 TEAM",key:"haas"},
-  {name:"RABIYA",number:"81",team:"MCLAREN",key:"mclaren"},
-  {name:"GIZEM",number:"4",team:"MCLAREN",key:"mclaren"},
-  {name:"EREN",number:"12",team:"MERCEDES",key:"mercedes"},
-  {name:"VETTELIZM",number:"63",team:"MERCEDES",key:"mercedes"},
-  {name:"EGEMEN",number:"41",team:"RACING BULLS",key:"vcarb"},
-  {name:"AHMET KEREM",number:"30",team:"RACING BULLS · FORMER",key:"vcarb",former:true},
-  {name:"HALİL",number:"30",team:"RACING BULLS",key:"vcarb"},
-  {name:"BARIŞ",number:"3",team:"RED BULL RACING",key:"redbull"},
-  {name:"UMUD",number:"6",team:"RED BULL RACING",key:"redbull"},
-  {name:"BERKE",number:"55",team:"WILLIAMS",key:"williams"},
-  {name:"YAVUZ",number:"23",team:"WILLIAMS",key:"williams"}
+  {name:"EMIR", number:"10", team:"BWT ALPINE", key:"alpine", photo:"images/emir.png"},
+  {name:"KEMAN", number:"43", team:"BWT ALPINE", key:"alpine", photo:"images/keman.png"},
+  {name:"TUNA", number:"14", team:"ASTON MARTIN", key:"aston"},
+  {name:"TLOU", number:"18", team:"ASTON MARTIN", key:"aston"},
+  {name:"RAIZER", number:"5", team:"AUDI", key:"audi"},
+  {name:"TOPRAK EGE", number:"27", team:"AUDI", key:"audi"},
+  {name:"OMUR", number:"16", team:"SCUDERIA FERRARI", key:"ferrari", photo:"images/omur (1).png"},
+  {name:"AHMAD", number:"44", team:"SCUDERIA FERRARI", key:"ferrari", photo:"images/ahmad.png"},
+  {name:"MUSTAFA", number:"87", team:"HAAS F1 TEAM", key:"haas"},
+  {name:"TOPRAK SEZER", number:"31", team:"HAAS F1 TEAM", key:"haas"},
+  {name:"RABIYA", number:"81", team:"MCLAREN", key:"mclaren"},
+  {name:"GIZEM", number:"4", team:"MCLAREN", key:"mclaren"},
+  {name:"EREN", number:"12", team:"MERCEDES", key:"mercedes"},
+  {name:"VETTELIZM", number:"63", team:"MERCEDES", key:"mercedes"},
+  {name:"EGEMEN", number:"41", team:"RACING BULLS", key:"vcarb"},
+  {name:"HALİL", number:"30", team:"RACING BULLS", key:"vcarb"},
+  {name:"BARIŞ", number:"3", team:"RED BULL RACING", key:"redbull"},
+  {name:"UMUD", number:"6", team:"RED BULL RACING", key:"redbull"},
+  {name:"BERKE", number:"55", team:"WILLIAMS", key:"williams"},
+  {name:"YAVUZ", number:"23", team:"WILLIAMS", key:"williams"},
+  {name:"AHMET KEREM", number:"", team:"RACING BULLS", key:"vcarb", former:true}
 ];
 
 const colors = {
@@ -3251,19 +3249,6 @@ document.addEventListener("keydown",event => {
     aston:"#006F62"
   };
 
-  const colors = {
-    ferrari:"#E10600",
-    alpine:"#0090FF",
-    mclaren:"#FF8000",
-    audi:"#D50000",
-    mercedes:"#00D2BE",
-    haas:"#B6BABD",
-    williams:"#005AFF",
-    redbull:"#3671C6",
-    vcarb:"#6692FF",
-    aston:"#006F62"
-  };
-
   /* STANDINGS CSS */
   const style = document.createElement("style");
   style.textContent = `
@@ -3433,37 +3418,6 @@ document.addEventListener("keydown",event => {
       color:#777;
       font-size:10px;
     }
-    .standings-table-wrap[hidden], .races-grid[hidden] { display:none!important; }
-    .races-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; }
-    .result-race-card { min-width:0; text-align:left; padding:18px; background:#141414; border:1px solid #303030; border-left:3px solid var(--winner-color,#444); color:#fff; cursor:pointer; transition:.2s; display:flex; flex-direction:column; gap:8px; }
-    .result-race-card:hover { background:#1d1d1d; border-color:#666; transform:translateY(-2px); }
-    .result-race-round { color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:9px; letter-spacing:1.5px; }
-    .result-race-card > strong { min-height:38px; font-family:'F1 Bold',Arial,sans-serif; font-size:14px; line-height:1.35; }
-    .result-race-winner-label { margin-top:8px; color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1.5px; }
-    .result-race-winner { color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:12px; }
-    .result-race-team { color:#999; font-size:10px; }
-    .result-race-fastest { margin-top:5px; padding-top:10px; border-top:1px solid #303030; color:#aaa; font-size:9px; letter-spacing:.5px; }
-    .result-race-open { margin-top:7px; color:#e10600; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
-    .race-result-modal { display:none; position:fixed; inset:0; z-index:10050; align-items:center; justify-content:center; padding:20px; }
-    .race-result-modal.active { display:flex; }
-    .race-result-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.86); backdrop-filter:blur(5px); }
-    .race-result-dialog { position:relative; z-index:1; width:min(920px,100%); max-height:90vh; overflow:auto; padding:25px; background:#101010; border:1px solid #414141; box-shadow:0 20px 80px rgba(0,0,0,.6); }
-    .race-result-modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:15px; padding-bottom:18px; border-bottom:1px solid #333; }
-    .race-result-modal-head h2 { margin:6px 0 0; color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:clamp(20px,4vw,30px); }
-    .race-result-close { width:38px; height:38px; flex-shrink:0; border:1px solid #444; background:#1b1b1b; color:#fff; font-size:27px; cursor:pointer; }
-    .race-result-highlights { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:18px 0; }
-    .race-result-highlights > div { min-width:0; padding:13px; background:#191919; border:1px solid #303030; }
-    .race-result-highlights span { display:block; margin-bottom:8px; color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
-    .race-result-highlights strong { display:block; overflow-wrap:anywhere; color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:11px; }
-    .race-driver-name { font-family:'F1 Bold',Arial,sans-serif; font-weight:bold; }
-    .race-result-table .standing-name { color:var(--driver-team-color)!important; }
-    .race-result-table .standing-points { color:white!important; }
-    .standing-points { width:90px; color:white!important; text-align:right; font-family:'F1 Bold',Arial,sans-serif!important; font-size:15px!important; font-weight:bold; }
-    .race-result-table-wrap { width:100%; overflow-x:auto; border:1px solid #303030; }
-    .race-result-table { min-width:620px; }
-    .race-results-empty { padding:28px!important; color:#777!important; text-align:center; font-size:10px!important; letter-spacing:1px; }
-    .race-result-modal-foot { margin-top:15px; color:#666; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
-
 
     @media(max-width:600px) {
       .standings-topline {
@@ -3484,62 +3438,49 @@ document.addEventListener("keydown",event => {
         align-items:flex-start;
         flex-direction:column;
       }
-      .races-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .race-result-dialog { padding:18px 13px; }
-      .race-result-highlights { grid-template-columns:1fr; }
-
     }
   `;
 
   document.head.appendChild(style);
 
-  /* REPLACE RESULTS SECTION */
+  /* REPLACE STANDINGS SECTION */
   const section = document.getElementById("standings");
   if (!section) return;
 
-  const races = [{"round":1,"name":"Kilis","winner":"TLOU","team":"ASTON MARTIN","teamColor":"#006F62","fastestLap":"TLOU","fastestTime":"0:58,740","pole":"RAIZER","poleTime":"","day":"AHMAD","results":[{"position":"1","driver":"TLOU","grid":"14","team":"ASTON MARTIN"},{"position":"2","driver":"MUSTAFA","grid":"4","team":"HAAS F1 TEAM"},{"position":"3","driver":"TOPRAK EGE","grid":"13","team":"AUDI"},{"position":"4","driver":"AHMAD","grid":"17","team":"FERRARI"},{"position":"5","driver":"EMİR","grid":"11","team":"ALPINE"},{"position":"6","driver":"RAIZER","grid":"1","team":"AUDI"},{"position":"7","driver":"EGEMEN","grid":"12","team":"RACING BULLS"},{"position":"8","driver":"OMUR","grid":"7","team":"FERRARI"},{"position":"9","driver":"KEMAN","grid":"10","team":"ALPINE"},{"position":"10","driver":"TOPRAK SEZER","grid":"3","team":"HAAS F1 TEAM"},{"position":"11","driver":"VETTELİZM","grid":"2","team":"MERCEDES"},{"position":"12","driver":"EREN","grid":"15","team":"MERCEDES"},{"position":"DNF","driver":"RABIYA","grid":"9","team":"MCLAREN"},{"position":"DNF","driver":"BARIŞ","grid":"5","team":"RED BULL RACING"},{"position":"DNF","driver":"TUNA","grid":"16","team":"ASTON MARTIN"},{"position":"DNF","driver":"AHMET KEREM","grid":"18","team":"RACING BULLS"},{"position":"DNF","driver":"GİZEM","grid":"8","team":"MCLAREN"},{"position":"DNF","driver":"HALİL","grid":"6","team":"RED BULL RACING"}]},{"round":2,"name":"Australia","winner":"BARIŞ","team":"RED BULL RACING","teamColor":"#3671C6","fastestLap":"MUSTAFA","fastestTime":"1:03,522","pole":"BARIŞ","poleTime":"","day":"RABIYA","results":[{"position":"1","driver":"BARIŞ","grid":"1","team":"RED BULL RACING"},{"position":"2","driver":"RABIYA","grid":"6","team":"MCLAREN"},{"position":"3","driver":"MUSTAFA","grid":"3","team":"HAAS F1 TEAM"},{"position":"4","driver":"RAIZER","grid":"4","team":"AUDI"},{"position":"5","driver":"AHMAD","grid":"5","team":"FERRARI"},{"position":"6","driver":"GİZEM","grid":"2","team":"MCLAREN"},{"position":"7","driver":"KEMAN","grid":"7","team":"ALPINE"},{"position":"8","driver":"HALİL","grid":"8","team":"RED BULL RACING"},{"position":"9","driver":"TLOU","grid":"9","team":"ASTON MARTIN"},{"position":"10","driver":"TUNA","grid":"10","team":"ASTON MARTIN"},{"position":"11","driver":"EGEMEN","grid":"11","team":"RACING BULLS"},{"position":"12","driver":"EMİR","grid":"12","team":"ALPINE"},{"position":"13","driver":"AHMET KEREM","grid":"13","team":"RACING BULLS"},{"position":"14","driver":"TOPRAK SEZER","grid":"14","team":"HAAS F1 TEAM"},{"position":"15","driver":"OMUR","grid":"15","team":"FERRARI"},{"position":"16","driver":"TOPRAK EGE","grid":"16","team":"AUDI"},{"position":"DSQ","driver":"EREN","grid":"17","team":"MERCEDES"},{"position":"DNF","driver":"VETTELİZM","grid":"18","team":"MERCEDES"}]},{"round":3,"name":"Bahrain","winner":"OMUR","team":"FERRARI","teamColor":"#E10600","fastestLap":"RABIYA","fastestTime":"1:26,458","pole":"EREN","poleTime":"1:25,848","day":"OMUR","results":[{"position":"1","driver":"OMUR","grid":"14","team":"FERRARI"},{"position":"2","driver":"RABIYA","grid":"2","team":"MCLAREN"},{"position":"3","driver":"AHMET KEREM","grid":"3","team":"RACING BULLS"},{"position":"4","driver":"MUSTAFA","grid":"6","team":"HAAS F1 TEAM"},{"position":"5","driver":"TLOU","grid":"16","team":"ASTON MARTIN"},{"position":"6","driver":"HALİL","grid":"18","team":"RED BULL RACING"},{"position":"7","driver":"EGEMEN","grid":"4","team":"RACING BULLS"},{"position":"8","driver":"BARIŞ","grid":"9","team":"RED BULL RACING"},{"position":"9","driver":"GİZEM","grid":"5","team":"MCLAREN"},{"position":"10","driver":"EMİR","grid":"11","team":"ALPINE"},{"position":"11","driver":"RAIZER","grid":"12","team":"AUDI"},{"position":"12","driver":"AHMAD","grid":"17","team":"FERRARI"},{"position":"13","driver":"TUNA","grid":"13","team":"ASTON MARTIN"},{"position":"14","driver":"TOPRAK EGE","grid":"7","team":"AUDI"},{"position":"DNF","driver":"EREN","grid":"1","team":"MERCEDES"},{"position":"DNF","driver":"VETTELİZM","grid":"15","team":"MERCEDES"},{"position":"DNF","driver":"TOPRAK SEZER","grid":"10","team":"HAAS F1 TEAM"},{"position":"DNF","driver":"KEMAN","grid":"8","team":"ALPINE"}]},{"round":4,"name":"Saudi Arabia","winner":"RAIZER","team":"AUDI","teamColor":"#D50000","fastestLap":"HALİL","fastestTime":"1:26,758","pole":"RAIZER","poleTime":"1:27,646","day":"TOPRAK SEZER","results":[{"position":"1","driver":"RAIZER","grid":"1","team":"AUDI"},{"position":"2","driver":"TOPRAK SEZER","grid":"11","team":"HAAS F1 TEAM"},{"position":"3","driver":"HALİL","grid":"7","team":"RED BULL RACING"},{"position":"4","driver":"EGEMEN","grid":"8","team":"RACING BULLS"},{"position":"5","driver":"EMİR","grid":"6","team":"ALPINE"},{"position":"6","driver":"VETTELİZM","grid":"9","team":"MERCEDES"},{"position":"7","driver":"RABIYA","grid":"12","team":"MCLAREN"},{"position":"8","driver":"MUSTAFA","grid":"16","team":"HAAS F1 TEAM"},{"position":"9","driver":"EREN","grid":"10","team":"MERCEDES"},{"position":"10","driver":"GİZEM","grid":"15","team":"MCLAREN"},{"position":"11","driver":"KEMAN","grid":"18","team":"ALPINE"},{"position":"12","driver":"TOPRAK EGE","grid":"4","team":"AUDI"},{"position":"13","driver":"BARIŞ","grid":"2","team":"RED BULL RACING"},{"position":"14","driver":"AHMET KEREM","grid":"5","team":"RACING BULLS"},{"position":"15","driver":"TUNA","grid":"17","team":"ASTON MARTIN"},{"position":"16","driver":"AHMAD","grid":"13","team":"FERRARI"},{"position":"17","driver":"TLOU","grid":"14","team":"ASTON MARTIN"},{"position":"DNF","driver":"OMUR","grid":"3","team":"FERRARI"}]},{"round":5,"name":"China","winner":"AHMAD","team":"FERRARI","teamColor":"#E10600","fastestLap":"OMUR","fastestTime":"1:28,957","pole":"EGEMEN","poleTime":"1:29,706","day":"AHMAD","results":[{"position":"1","driver":"AHMAD","grid":"19","team":"FERRARI"},{"position":"2","driver":"TOPRAK SEZER","grid":"6","team":"HAAS F1 TEAM"},{"position":"3","driver":"EREN","grid":"20","team":"MERCEDES"},{"position":"4","driver":"OMUR","grid":"13","team":"FERRARI"},{"position":"5","driver":"BERKE","grid":"8","team":"WILLIAMS"},{"position":"6","driver":"TOPRAK EGE","grid":"7","team":"AUDI"},{"position":"7","driver":"RAIZER","grid":"9","team":"AUDI"},{"position":"8","driver":"BARIŞ","grid":"15","team":"RED BULL RACING"},{"position":"9","driver":"EGEMEN","grid":"1","team":"RACING BULLS"},{"position":"10","driver":"VETTELİZM","grid":"4","team":"MERCEDES"},{"position":"11","driver":"GİZEM","grid":"17","team":"MCLAREN"},{"position":"12","driver":"AHMET KEREM","grid":"2","team":"RACING BULLS"},{"position":"13","driver":"TLOU","grid":"16","team":"ASTON MARTIN"},{"position":"14","driver":"MUSTAFA","grid":"5","team":"HAAS F1 TEAM"},{"position":"15","driver":"TUNA","grid":"3","team":"ASTON MARTIN"},{"position":"16","driver":"YAVUZ","grid":"12","team":"WILLIAMS"},{"position":"DNF","driver":"HALİL","grid":"18","team":"RED BULL RACING"},{"position":"DNF","driver":"KEMAN","grid":"10","team":"ALPINE"},{"position":"DNF","driver":"EMİR","grid":"11","team":"ALPINE"},{"position":"DNF","driver":"RABIYA","grid":"14","team":"MCLAREN"}]},{"round":6,"name":"Japan","winner":"EMİR","team":"ALPINE","teamColor":"#0090FF","fastestLap":"KEMAN","fastestTime":"1:26,978","pole":"TOPRAK EGE","poleTime":"1:26,667","day":"RABIYA","results":[{"position":"1","driver":"EMİR","grid":"2","team":"ALPINE"},{"position":"2","driver":"OMUR","grid":"9","team":"FERRARI"},{"position":"3","driver":"MUSTAFA","grid":"5","team":"HAAS F1 TEAM"},{"position":"4","driver":"RABIYA","grid":"11","team":"MCLAREN"},{"position":"5","driver":"AHMAD","grid":"4","team":"FERRARI"},{"position":"6","driver":"HALİL","grid":"17","team":"RED BULL RACING"},{"position":"7","driver":"KEMAN","grid":"18","team":"ALPINE"},{"position":"8","driver":"TUNA","grid":"3","team":"ASTON MARTIN"},{"position":"9","driver":"RAIZER","grid":"6","team":"AUDI"},{"position":"10","driver":"GİZEM","grid":"13","team":"MCLAREN"},{"position":"11","driver":"VETTELİZM","grid":"8","team":"MERCEDES"},{"position":"12","driver":"BARIŞ","grid":"15","team":"RED BULL RACING"},{"position":"13","driver":"EREN","grid":"12","team":"MERCEDES"},{"position":"14","driver":"EGEMEN","grid":"16","team":"RACING BULLS"},{"position":"15","driver":"BERKE","grid":"10","team":"WILLIAMS"},{"position":"16","driver":"AHMET KEREM","grid":"20","team":"RACING BULLS"},{"position":"17","driver":"TLOU","grid":"19","team":"ASTON MARTIN"},{"position":"18","driver":"YAVUZ","grid":"14","team":"WILLIAMS"},{"position":"19","driver":"TOPRAK SEZER","grid":"7","team":"HAAS F1 TEAM"},{"position":"DNF","driver":"TOPRAK EGE","grid":"1","team":"AUDI"}]},{"round":7,"name":"Miami","winner":"RAIZER","team":"AUDI","teamColor":"#D50000","fastestLap":"BARIŞ","fastestTime":"1:22,204","pole":"BARIŞ","poleTime":"1:22,226","day":"AHMET KEREM","results":[{"position":"1","driver":"RAIZER","grid":"12","team":"AUDI"},{"position":"2","driver":"AHMET KEREM","grid":"19","team":"RACING BULLS"},{"position":"3","driver":"TOPRAK SEZER","grid":"3","team":"HAAS F1 TEAM"},{"position":"4","driver":"BARIŞ","grid":"1","team":"RED BULL RACING"},{"position":"5","driver":"BERKE","grid":"17","team":"WILLIAMS"},{"position":"6","driver":"EMİR","grid":"5","team":"ALPINE"},{"position":"7","driver":"VETTELİZM","grid":"18","team":"MERCEDES"},{"position":"8","driver":"AHMAD","grid":"4","team":"FERRARI"},{"position":"9","driver":"TOPRAK EGE","grid":"6","team":"AUDI"},{"position":"10","driver":"MUSTAFA","grid":"10","team":"HAAS F1 TEAM"},{"position":"11","driver":"HALİL","grid":"7","team":"RED BULL RACING"},{"position":"12","driver":"EGEMEN","grid":"16","team":"RACING BULLS"},{"position":"13","driver":"EREN","grid":"8","team":"MERCEDES"},{"position":"14","driver":"OMUR","grid":"15","team":"FERRARI"},{"position":"15","driver":"YAVUZ","grid":"2","team":"WILLIAMS"},{"position":"16","driver":"KEMAN","grid":"20","team":"ALPINE"},{"position":"17","driver":"GİZEM","grid":"14","team":"MCLAREN"},{"position":"18","driver":"TLOU","grid":"9","team":"ASTON MARTIN"},{"position":"19","driver":"RABIYA","grid":"11","team":"MCLAREN"},{"position":"20","driver":"TUNA","grid":"13","team":"ASTON MARTIN"}]},{"round":8,"name":"Canada","winner":"OMUR","team":"FERRARI","teamColor":"#E10600","fastestLap":"OMUR","fastestTime":"1:05,968","pole":"OMUR","poleTime":"1:06,407","day":"OMUR","results":[{"position":"1","driver":"OMUR","grid":"1","team":"FERRARI"},{"position":"2","driver":"GİZEM","grid":"3","team":"MCLAREN"},{"position":"3","driver":"UMUD","grid":"6","team":"RED BULL RACING"},{"position":"4","driver":"TLOU","grid":"8","team":"ASTON MARTIN"},{"position":"5","driver":"RABIYA","grid":"7","team":"MCLAREN"},{"position":"6","driver":"KEMAN","grid":"4","team":"ALPINE"},{"position":"7","driver":"BARIŞ","grid":"12","team":"RED BULL RACING"},{"position":"8","driver":"EREN","grid":"10","team":"MERCEDES"},{"position":"9","driver":"TOPRAK SEZER","grid":"2","team":"HAAS F1 TEAM"},{"position":"10","driver":"HALİL","grid":"16","team":"RACING BULLS"},{"position":"11","driver":"TUNA","grid":"18","team":"ASTON MARTIN"},{"position":"12","driver":"MUSTAFA","grid":"11","team":"HAAS F1 TEAM"},{"position":"13","driver":"EGEMEN","grid":"15","team":"RACING BULLS"},{"position":"14","driver":"EMİR","grid":"13","team":"ALPINE"},{"position":"15","driver":"BERKE","grid":"17","team":"WILLIAMS"},{"position":"16","driver":"TOPRAK EGE","grid":"5","team":"AUDI"},{"position":"17","driver":"VETTELİZM","grid":"14","team":"MERCEDES"},{"position":"18","driver":"YAVUZ","grid":"20","team":"WILLIAMS"},{"position":"19","driver":"AHMAD","grid":"9","team":"FERRARI"},{"position":"20","driver":"RAIZER","grid":"19","team":"AUDI"}]},{"round":9,"name":"Monaco","winner":"HALİL","team":"RACING BULLS","teamColor":"#6692FF","fastestLap":"BARIŞ","fastestTime":"1:13,079","pole":"YAVUZ","poleTime":"","day":"HALİL","results":[{"position":"1","driver":"HALİL","grid":"5","team":"RACING BULLS"},{"position":"2","driver":"MUSTAFA","grid":"4","team":"HAAS F1 TEAM"},{"position":"3","driver":"TOPRAK SEZER","grid":"2","team":"HAAS F1 TEAM"},{"position":"4","driver":"UMUD","grid":"6","team":"RED BULL RACING"},{"position":"5","driver":"YAVUZ","grid":"1","team":"WILLIAMS"},{"position":"6","driver":"EGEMEN","grid":"7","team":"RACING BULLS"},{"position":"7","driver":"EMİR","grid":"3","team":"ALPINE"},{"position":"8","driver":"RABIYA","grid":"12","team":"MCLAREN"},{"position":"9","driver":"BERKE","grid":"11","team":"WILLIAMS"},{"position":"10","driver":"GİZEM","grid":"13","team":"MCLAREN"},{"position":"11","driver":"OMUR","grid":"10","team":"FERRARI"},{"position":"12","driver":"EREN","grid":"20","team":"MERCEDES"},{"position":"13","driver":"TOPRAK EGE","grid":"18","team":"AUDI"},{"position":"14","driver":"TLOU","grid":"15","team":"ASTON MARTIN"},{"position":"15","driver":"VETTELİZM","grid":"17","team":"MERCEDES"},{"position":"16","driver":"BARIŞ","grid":"16","team":"RED BULL RACING"},{"position":"17","driver":"TUNA","grid":"19","team":"ASTON MARTIN"},{"position":"DNF","driver":"AHMAD","grid":"8","team":"FERRARI"},{"position":"DNF","driver":"RAIZER","grid":"9","team":"AUDI"},{"position":"DNF","driver":"KEMAN","grid":"14","team":"ALPINE"}]},{"round":10,"name":"Austria","winner":"RABIYA","team":"MCLAREN","teamColor":"#FF8000","fastestLap":"EGEMEN","fastestTime":"1:03,654","pole":"VETTELİZM","poleTime":"","day":"RAIZER","results":[{"position":"1","driver":"RABIYA","grid":"6","team":"MCLAREN"},{"position":"2","driver":"RAIZER","grid":"10","team":"AUDI"},{"position":"3","driver":"TOPRAK SEZER","grid":"5","team":"HAAS F1 TEAM"},{"position":"4","driver":"HALİL","grid":"3","team":"RACING BULLS"},{"position":"5","driver":"YAVUZ","grid":"4","team":"WILLIAMS"},{"position":"6","driver":"VETTELİZM","grid":"1","team":"MERCEDES"},{"position":"7","driver":"UMUD","grid":"18","team":"RED BULL RACING"},{"position":"8","driver":"EMİR","grid":"2","team":"ALPINE"},{"position":"9","driver":"TUNA","grid":"14","team":"ASTON MARTIN"},{"position":"10","driver":"AHMAD","grid":"19","team":"FERRARI"},{"position":"11","driver":"GİZEM","grid":"12","team":"MCLAREN"},{"position":"12","driver":"TOPRAK EGE","grid":"17","team":"AUDI"},{"position":"13","driver":"MUSTAFA","grid":"11","team":"HAAS F1 TEAM"},{"position":"14","driver":"KEMAN","grid":"15","team":"ALPINE"},{"position":"15","driver":"BERKE","grid":"20","team":"WILLIAMS"},{"position":"16","driver":"BARIŞ","grid":"7","team":"RED BULL RACING"},{"position":"17","driver":"OMUR","grid":"8","team":"FERRARI"},{"position":"18","driver":"EGEMEN","grid":"13","team":"RACING BULLS"},{"position":"DNF","driver":"EREN","grid":"16","team":"MERCEDES"},{"position":"DNF","driver":"TLOU","grid":"9","team":"ASTON MARTIN"}]},{"round":11,"name":"Great Britain","winner":"TUNA","team":"ASTON MARTIN","teamColor":"#006F62","fastestLap":"TOPRAK EGE","fastestTime":"1:35,761","pole":"TLOU","poleTime":"1:30,333","day":"OMUR","results":[{"position":"1","driver":"TUNA","grid":"3","team":"ASTON MARTIN"},{"position":"2","driver":"OMUR","grid":"19","team":"FERRARI"},{"position":"3","driver":"EREN","grid":"2","team":"MERCEDES"},{"position":"4","driver":"EGEMEN","grid":"7","team":"RACING BULLS"},{"position":"5","driver":"TOPRAK EGE","grid":"13","team":"AUDI"},{"position":"6","driver":"VETTELİZM","grid":"4","team":"MERCEDES"},{"position":"7","driver":"KEMAN","grid":"5","team":"ALPINE"},{"position":"8","driver":"TOPRAK SEZER","grid":"16","team":"HAAS F1 TEAM"},{"position":"9","driver":"TLOU","grid":"1","team":"ASTON MARTIN"},{"position":"10","driver":"BERKE","grid":"20","team":"WILLIAMS"},{"position":"11","driver":"RAIZER","grid":"9","team":"AUDI"},{"position":"12","driver":"MUSTAFA","grid":"15","team":"HAAS F1 TEAM"},{"position":"13","driver":"EMİR","grid":"6","team":"ALPINE"},{"position":"14","driver":"BARIŞ","grid":"14","team":"RED BULL RACING"},{"position":"15","driver":"GİZEM","grid":"8","team":"MCLAREN"},{"position":"16","driver":"HALİL","grid":"12","team":"RACING BULLS"},{"position":"DNF","driver":"RABIYA","grid":"10","team":"MCLAREN"},{"position":"DNF","driver":"YAVUZ","grid":"11","team":"WILLIAMS"},{"position":"DNF","driver":"AHMAD","grid":"18","team":"FERRARI"},{"position":"DNF","driver":"UMUD","grid":"17","team":"RED BULL RACING"}]},{"round":12,"name":"Belgium","winner":"EMİR","team":"ALPINE","teamColor":"#0090FF","fastestLap":"VETTELİZM","fastestTime":"1:42,350","pole":"EMİR","poleTime":"","day":"UMUD","results":[{"position":"1","driver":"EMİR","grid":"1","team":"ALPINE"},{"position":"2","driver":"MUSTAFA","grid":"5","team":"HAAS F1 TEAM"},{"position":"3","driver":"UMUD","grid":"12","team":"RED BULL RACING"},{"position":"4","driver":"TOPRAK EGE","grid":"11","team":"AUDI"},{"position":"5","driver":"VETTELİZM","grid":"6","team":"MERCEDES"},{"position":"6","driver":"HALİL","grid":"13","team":"RACING BULLS"},{"position":"7","driver":"TOPRAK SEZER","grid":"9","team":"HAAS F1 TEAM"},{"position":"8","driver":"RAIZER","grid":"2","team":"AUDI"},{"position":"9","driver":"KEMAN","grid":"3","team":"ALPINE"},{"position":"10","driver":"OMUR","grid":"15","team":"FERRARI"},{"position":"11","driver":"YAVUZ","grid":"4","team":"WILLIAMS"},{"position":"12","driver":"TLOU","grid":"14","team":"ASTON MARTIN"},{"position":"13","driver":"EGEMEN","grid":"18","team":"RACING BULLS"},{"position":"14","driver":"AHMAD","grid":"20","team":"FERRARI"},{"position":"15","driver":"RABIYA","grid":"8","team":"MCLAREN"},{"position":"16","driver":"GİZEM","grid":"16","team":"MCLAREN"},{"position":"17","driver":"TUNA","grid":"19","team":"ASTON MARTIN"},{"position":"DNF","driver":"BERKE","grid":"17","team":"WILLIAMS"},{"position":"DNF","driver":"BARIŞ","grid":"7","team":"RED BULL RACING"},{"position":"DNF","driver":"EREN","grid":"10","team":"MERCEDES"}]},{"round":13,"name":"Hungary","winner":"EGEMEN","team":"RACING BULLS","teamColor":"#6692FF","fastestLap":"BARIŞ","fastestTime":"1:18,391","pole":"TLOU","poleTime":"","day":"OMUR","results":[{"position":"1","driver":"EGEMEN","grid":"2","team":"RACING BULLS"},{"position":"2","driver":"RAIZER","grid":"10","team":"AUDI"},{"position":"3","driver":"TOPRAK SEZER","grid":"3","team":"HAAS F1 TEAM"},{"position":"4","driver":"UMUD","grid":"4","team":"RED BULL RACING"},{"position":"5","driver":"RABIYA","grid":"7","team":"MCLAREN"},{"position":"6","driver":"TOPRAK EGE","grid":"6","team":"AUDI"},{"position":"7","driver":"MUSTAFA","grid":"5","team":"HAAS F1 TEAM"},{"position":"8","driver":"TLOU","grid":"1","team":"ASTON MARTIN"},{"position":"9","driver":"OMUR","grid":"17","team":"FERRARI"},{"position":"10","driver":"TUNA","grid":"12","team":"ASTON MARTIN"},{"position":"11","driver":"EREN","grid":"8","team":"MERCEDES"},{"position":"12","driver":"EMİR","grid":"9","team":"ALPINE"},{"position":"13","driver":"HALİL","grid":"11","team":"RACING BULLS"},{"position":"14","driver":"GİZEM","grid":"18","team":"MCLAREN"},{"position":"15","driver":"BERKE","grid":"16","team":"WILLIAMS"},{"position":"16","driver":"AHMAD","grid":"14","team":"FERRARI"},{"position":"17","driver":"KEMAN","grid":"13","team":"ALPINE"},{"position":"18","driver":"VETTELİZM","grid":"19","team":"MERCEDES"},{"position":"19","driver":"YAVUZ","grid":"20","team":"WILLIAMS"},{"position":"20","driver":"BARIŞ","grid":"15","team":"RED BULL RACING"}]},{"round":14,"name":"Italy","winner":"EGEMEN","team":"RACING BULLS","teamColor":"#6692FF","fastestLap":"BARIŞ","fastestTime":"1:25,314","pole":"TUNA","poleTime":"1:23,810","day":"OMUR","results":[{"position":"1","driver":"EGEMEN","grid":"4","team":"RACING BULLS"},{"position":"2","driver":"TLOU","grid":"2","team":"ASTON MARTIN"},{"position":"3","driver":"BARIŞ","grid":"6","team":"RED BULL RACING"},{"position":"4","driver":"TUNA","grid":"1","team":"ASTON MARTIN"},{"position":"5","driver":"TOPRAK SEZER","grid":"5","team":"HAAS F1 TEAM"},{"position":"6","driver":"UMUD","grid":"10","team":"RED BULL RACING"},{"position":"7","driver":"AHMAD","grid":"3","team":"FERRARI"},{"position":"8","driver":"OMUR","grid":"20","team":"FERRARI"},{"position":"9","driver":"KEMAN","grid":"11","team":"ALPINE"},{"position":"10","driver":"RABIYA","grid":"8","team":"MCLAREN"},{"position":"11","driver":"EREN","grid":"16","team":"MERCEDES"},{"position":"12","driver":"MUSTAFA","grid":"9","team":"HAAS F1 TEAM"},{"position":"13","driver":"EMİR","grid":"7","team":"ALPINE"},{"position":"14","driver":"TOPRAK EGE","grid":"17","team":"AUDI"},{"position":"15","driver":"HALİL","grid":"13","team":"RACING BULLS"},{"position":"16","driver":"RAIZER","grid":"18","team":"AUDI"},{"position":"17","driver":"BERKE","grid":"15","team":"WILLIAMS"},{"position":"18","driver":"GİZEM","grid":"19","team":"MCLAREN"},{"position":"19","driver":"VETTELİZM","grid":"14","team":"MERCEDES"},{"position":"DNF","driver":"YAVUZ","grid":"12","team":"WILLIAMS"}]},{"round":15,"name":"Türkiye","winner":"TUNA","team":"ASTON MARTIN","teamColor":"#006F62","fastestLap":"MUSTAFA","fastestTime":"1:15,345","pole":"MUSTAFA","poleTime":"1:18,130","day":"TUNA","results":[{"position":"1","driver":"TUNA","grid":"5","team":"ASTON MARTIN"},{"position":"2","driver":"MUSTAFA","grid":"1","team":"HAAS F1 TEAM"},{"position":"3","driver":"AHMAD","grid":"3","team":"FERRARI"},{"position":"4","driver":"RABIYA","grid":"7","team":"MCLAREN"},{"position":"5","driver":"EREN","grid":"4","team":"MERCEDES"},{"position":"6","driver":"OMUR","grid":"2","team":"FERRARI"},{"position":"7","driver":"TLOU","grid":"11","team":"ASTON MARTIN"},{"position":"8","driver":"VETTELİZM","grid":"15","team":"MERCEDES"},{"position":"9","driver":"YAVUZ","grid":"9","team":"WILLIAMS"},{"position":"10","driver":"BERKE","grid":"17","team":"WILLIAMS"},{"position":"11","driver":"GİZEM","grid":"6","team":"MCLAREN"},{"position":"12","driver":"KEMAN","grid":"16","team":"ALPINE"},{"position":"13","driver":"EMİR","grid":"10","team":"ALPINE"},{"position":"14","driver":"HALİL","grid":"14","team":"RACING BULLS"},{"position":"15","driver":"TOPRAK SEZER","grid":"19","team":"HAAS F1 TEAM"},{"position":"16","driver":"RAIZER","grid":"8","team":"AUDI"},{"position":"17","driver":"BARIŞ","grid":"20","team":"RED BULL RACING"},{"position":"18","driver":"EGEMEN","grid":"13","team":"RACING BULLS"},{"position":"19","driver":"TOPRAK EGE","grid":"12","team":"AUDI"},{"position":"DNF","driver":"UMUD","grid":"18","team":"RED BULL RACING"}]},{"round":16,"name":"Azerbaijan","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":17,"name":"Spain","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":18,"name":"Singapore","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":19,"name":"USA","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":20,"name":"Germany","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":21,"name":"Brazil","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":22,"name":"Las Vegas","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":23,"name":"Qatar","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]},{"round":24,"name":"Abu Dhabi","winner":"","team":"","teamColor":"","fastestLap":"","fastestTime":"","pole":"","poleTime":"","day":"","results":[]}];
-
   section.innerHTML = `
     <div class="standings-topline">
-      <div><div class="eyebrow">SEASON 2 · 2026</div><h2 class="section-title">RESULTS</h2></div>
-      <div class="standings-season">24 ROUNDS</div>
+      <div>
+        <div class="eyebrow">SEASON 2 · 2026</div>
+        <h2 class="section-title">CHAMPIONSHIP</h2>
+      </div>
+      <div class="standings-season">ROUND 16</div>
     </div>
-    <p class="section-description">THE CHAMPIONSHIP AND EVERY GRAND PRIX RESULT.</p>
-    <div class="standings-tabs" role="tablist" aria-label="Results categories">
-      <button class="standings-tab active" data-table="drivers" type="button">DRIVERS</button>
-      <button class="standings-tab" data-table="teams" type="button">CONSTRUCTORS</button>
-      <button class="standings-tab" data-table="races" type="button">RACES</button>
+
+    <p class="section-description">
+      THE FIGHT FOR THE CHAMPIONSHIP.
+    </p>
+
+    <div class="standings-tabs">
+      <button class="standings-tab active" data-table="drivers" type="button">
+        DRIVER STANDINGS
+      </button>
+      <button class="standings-tab" data-table="teams" type="button">
+        CONSTRUCTOR STANDINGS
+      </button>
     </div>
-    <div class="standings-table-wrap" id="standingsTableWrap">
-      <table class="standings-table"><thead id="standingsHead"></thead><tbody id="standingsBody"></tbody></table>
+
+    <div class="standings-table-wrap">
+      <table class="standings-table">
+        <thead id="standingsHead"></thead>
+        <tbody id="standingsBody"></tbody>
+      </table>
     </div>
-    <div class="races-grid" id="resultsRaceGrid" hidden></div>
+
     <div class="standings-footer">
       <span>PIT EKIBI LEAGUE · SEASON 2</span>
-      <span class="standings-empty-note" id="standingsNote">OFFICIAL CHAMPIONSHIP POINTS</span>
-    </div>
-    <div class="race-result-modal" id="raceResultModal" aria-hidden="true">
-      <div class="race-result-backdrop" data-close-race-modal></div>
-      <div class="race-result-dialog" role="dialog" aria-modal="true" aria-labelledby="raceResultTitle">
-        <div class="race-result-modal-head">
-          <div><div class="eyebrow" id="raceResultRound">ROUND 01</div><h2 id="raceResultTitle">GRAND PRIX</h2></div>
-          <button class="race-result-close" type="button" aria-label="Close results" data-close-race-modal>×</button>
-        </div>
-        <div class="race-result-highlights">
-          <div><span>WINNER</span><strong id="raceResultWinner">—</strong></div>
-          <div><span>TEAM</span><strong id="raceResultTeam">—</strong></div>
-          <div><span>POLE POSITION</span><strong id="raceResultPole">—</strong></div>
-          <div><span>FASTEST LAP</span><strong id="raceResultFastest">—</strong></div>
-          <div><span>DRIVER OF THE DAY</span><strong id="raceResultDay">—</strong></div>
-        </div>
-        <div class="race-result-table-wrap">
-          <table class="standings-table race-result-table">
-            <thead><tr><th>POS</th><th>DRIVER</th><th>TEAM</th><th>GRID</th></tr></thead>
-            <tbody id="raceResultBody"><tr><td colspan="5" class="race-results-empty">RESULTS WILL BE ADDED SOON.</td></tr></tbody>
-          </table>
-        </div>
-        <div class="race-result-modal-foot">PIT EKIBI LEAGUE · SEASON 2</div>
-      </div>
+      <span class="standings-empty-note" id="standingsNote">
+        OFFICIAL CHAMPIONSHIP POINTS
+      </span>
     </div>
   `;
 
@@ -3547,133 +3488,125 @@ document.addEventListener("keydown",event => {
   const body = section.querySelector("#standingsBody");
   const note = section.querySelector("#standingsNote");
   const tabs = section.querySelectorAll(".standings-tab");
-  const tableWrap = section.querySelector("#standingsTableWrap");
-  const raceGrid = section.querySelector("#resultsRaceGrid");
-  const modal = section.querySelector("#raceResultModal");
 
   function sortByPoints(list) {
-    return [...list].sort((a,b) => b.points !== a.points ? b.points-a.points : a.pos-b.pos);
-  }
-
-  function sortByPoints(list) {
-    return [...list].sort((a,b) => b.points - a.points || a.pos - b.pos);
+    return [...list].sort((a,b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      return a.pos - b.pos;
+    });
   }
 
   function renderDrivers() {
-    tableWrap.hidden = false; raceGrid.hidden = true;
-    head.innerHTML = '<tr><th>POS</th><th>DRIVER</th><th>TEAM</th><th style="text-align:right">PTS</th></tr>';
+    head.innerHTML = `
+      <tr>
+        <th>POS</th>
+        <th>DRIVER</th>
+        <th>TEAM</th>
+        <th style="text-align:right">PTS</th>
+      </tr>
+    `;
+
     body.innerHTML = "";
+
     sortByPoints(drivers).forEach((driver,index) => {
       const row = document.createElement("tr");
+
       row.innerHTML = `
-        <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
-        <td class="standing-name"><span class="standing-driver-number" style="--standing-color:${colors[driver.key]}">${driver.number === "NO NUMBER" ? "—" : "#" + driver.number}</span>${driver.name}</td>
-        <td class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[driver.key]}"></span>${driver.team}</td>
-        <td class="standing-points">${driver.points}</td>`;
+        <td class="standing-position">
+          ${String(index+1).padStart(2,"0")}
+        </td>
+
+        <td class="standing-name">
+          <span class="standing-driver-number"
+            style="--standing-color:${colors[driver.key]}">
+            ${driver.number === "NO NUMBER" ? "—" : "#" + driver.number}
+          </span>${driver.name}
+        </td>
+
+        <td class="standing-team">
+          <span class="standing-team-color"
+            style="--standing-color:${colors[driver.key]}"></span>
+          ${driver.team}
+        </td>
+
+        <td class="standing-points">${driver.points}</td>
+      `;
+
       body.appendChild(row);
     });
-    note.textContent = "21 DRIVERS · OFFICIAL CHAMPIONSHIP POINTS";
+
+    note.textContent = "21 DRIVERS · OFFICIAL POINTS";
   }
 
   function renderTeams() {
-    tableWrap.hidden = false; raceGrid.hidden = true;
-    head.innerHTML = '<tr><th>POS</th><th>CONSTRUCTOR</th><th style="text-align:right">PTS</th></tr>';
+    head.innerHTML = `
+      <tr>
+        <th>POS</th>
+        <th>CONSTRUCTOR</th>
+        <th style="text-align:right">PTS</th>
+      </tr>
+    `;
+
     body.innerHTML = "";
+
     sortByPoints(teams).forEach((team,index) => {
       const row = document.createElement("tr");
+
       row.innerHTML = `
-        <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
-        <td class="standing-name"><span class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[team.key]}"></span>${team.name}</span></td>
-        <td class="standing-points">${team.points}</td>`;
+        <td class="standing-position">
+          ${String(index+1).padStart(2,"0")}
+        </td>
+
+        <td class="standing-name">
+          <span class="standing-team">
+            <span class="standing-team-color"
+              style="--standing-color:${colors[team.key]}"></span>
+            ${team.name}
+          </span>
+        </td>
+
+        <td class="standing-points">${team.points}</td>
+      `;
+
       body.appendChild(row);
     });
-    note.textContent = "10 CONSTRUCTORS · OFFICIAL CHAMPIONSHIP POINTS";
+
+    note.textContent = "10 CONSTRUCTORS · OFFICIAL POINTS";
   }
 
-  function teamColorForName(teamName) {
-    const normalized = String(teamName || "").toUpperCase();
-    const match = teams.find(team => normalized.includes(team.name.toUpperCase()) ||
-      team.name.toUpperCase().includes(normalized));
-    return match ? colors[match.key] : "#ffffff";
-  }
+  tabs.forEach(tab => {
+    tab.addEventListener("click",() => {
+      tabs.forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
 
-  function openRace(race) {
-    section.querySelector("#raceResultRound").textContent = "ROUND " + String(race.round).padStart(2,"0");
-    section.querySelector("#raceResultTitle").textContent = race.name.toUpperCase() + " GRAND PRIX";
-    const winnerEl = section.querySelector("#raceResultWinner");
-    winnerEl.textContent = race.winner || "—";
-    winnerEl.style.color = teamColorForName(race.team);
-    section.querySelector("#raceResultTeam").textContent = race.team || "—";
-    const fastestEl = section.querySelector("#raceResultFastest");
-    fastestEl.textContent = race.fastestLap ? race.fastestLap + (race.fastestTime ? " · " + race.fastestTime : "") : "—";
-    fastestEl.style.color = teamColorForName((drivers.find(d => d.name.toUpperCase() === String(race.fastestLap || "").toUpperCase()) || {}).team);
-    const poleEl = section.querySelector("#raceResultPole");
-    poleEl.textContent = race.pole ? race.pole + (race.poleTime ? " · " + race.poleTime : "") : "—";
-    const poleDriver = drivers.find(d => d.name.toUpperCase() === String(race.pole || "").toUpperCase());
-    poleEl.style.color = poleDriver ? colors[poleDriver.key] : "#fff";
-    const dayEl = section.querySelector("#raceResultDay");
-    dayEl.textContent = race.day || "—";
-    const dayDriver = drivers.find(d => d.name.toUpperCase() === String(race.day || "").toUpperCase());
-    dayEl.style.color = dayDriver ? colors[dayDriver.key] : "#fff";
-    const resultBody = section.querySelector("#raceResultBody");
-    if (!race.results.length) {
-      resultBody.innerHTML = '<tr><td colspan="4" class="race-results-empty">RESULTS WILL BE ADDED SOON.</td></tr>';
-    } else {
-      resultBody.innerHTML = race.results.map((result,index) => `
-        <tr><td class="standing-position">${result.position || index+1}</td><td class="standing-name" style="--driver-team-color:${teamColorForName(result.team)}">${result.driver || "—"}</td><td>${result.team || "—"}</td><td>${result.grid || "—"}</td></tr>`).join("");
-    }
-    modal.classList.add("active"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
-  }
-
-  function closeRace() {
-    modal.classList.remove("active"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow = "";
-  }
-
-  function renderRaces() {
-    tableWrap.hidden = true; raceGrid.hidden = false; raceGrid.innerHTML = "";
-    races.forEach(race => {
-      const card = document.createElement("button");
-      card.type = "button"; card.className = "result-race-card";
-      if (race.teamColor) card.style.setProperty("--winner-color", race.teamColor);
-      card.innerHTML = `
-        <span class="result-race-round">ROUND ${String(race.round).padStart(2,"0")}</span>
-        <strong>${race.name.toUpperCase()} GRAND PRIX</strong>
-        <span class="result-race-winner-label">WINNER</span>
-        <span class="result-race-winner">${race.winner || "TO BE ANNOUNCED"}</span>
-        <span class="result-race-team">${race.team || "TEAM —"}</span>
-        <span class="result-race-fastest">FASTEST LAP · ${race.fastestLap || "—"}</span>
-        <span class="result-race-open">VIEW FULL RESULTS ↗</span>`;
-      card.addEventListener("click",() => openRace(race));
-      raceGrid.appendChild(card);
+      if (tab.dataset.table === "drivers") {
+        renderDrivers();
+      } else {
+        renderTeams();
+      }
     });
-    note.textContent = "24 GRAND PRIX · SELECT A RACE TO VIEW RESULTS";
-  }
-
-  tabs.forEach(tab => tab.addEventListener("click",() => {
-    tabs.forEach(item => item.classList.toggle("active",item === tab));
-    if (tab.dataset.table === "drivers") renderDrivers();
-    else if (tab.dataset.table === "teams") renderTeams();
-    else renderRaces();
-  }));
-
-  modal.querySelectorAll("[data-close-race-modal]").forEach(item => item.addEventListener("click",closeRace));
-  document.addEventListener("keydown",event => { if (event.key === "Escape" && modal.classList.contains("active")) closeRace(); });
+  });
 
   renderDrivers();
 
+  /* REMOVE ARCHIVE */
   function removeArchive() {
     document.getElementById("archiveNavLink")?.remove();
     document.getElementById("archiveModal")?.remove();
-    document.querySelectorAll("style").forEach(item => { if (item.textContent.includes(".archive-modal{")) item.remove(); });
+
+    document.querySelectorAll("style").forEach(item => {
+      if (item.textContent.includes(".archive-modal{")) {
+        item.remove();
+      }
+    });
   }
+
   removeArchive();
   document.addEventListener("DOMContentLoaded",removeArchive);
   window.addEventListener("load",removeArchive);
 
-  console.log("PIT EKIBI LEAGUE: Results section loaded.");
-})();</script>
-
-
-
+  console.log("PIT EKIBI LEAGUE: Season 2 standings loaded.");
+})();
+</script>
 </body>
 </html>
