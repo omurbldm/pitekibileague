@@ -294,6 +294,19 @@ pointer-events:none;
 .compare-legend span{display:flex;align-items:center;gap:7px}
 .compare-legend i{width:9px;height:9px;display:inline-block;border-radius:2px}
 
+/* VIDEO CARDS */
+.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.video-card{min-width:0;overflow:hidden;background:#111;border:1px solid #303030}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#080808}
+.video-frame iframe{position:absolute;inset:0;display:block;width:100%!important;height:100%!important;max-width:none!important;border:0}
+.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:linear-gradient(135deg,#191919,#080808);color:#aaa;text-align:center}
+.video-placeholder strong{color:white;font-family:'F1 Bold',Arial,sans-serif;font-size:13px;letter-spacing:2px}
+.video-placeholder span{font-size:10px;letter-spacing:1px}
+.video-info{padding:16px}
+.video-info .video-tag{color:#e10600;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1px}
+.video-info h3{margin:9px 0;color:white;font-family:'F1 Bold',Arial,sans-serif;font-size:15px}
+.video-info p{margin:0;color:#888;font-size:10px;line-height:1.6}
+
 /* INSTAGRAM REELS */
 .instagram-reel-frame{width:100%;min-height:520px;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;background:#080808;padding:12px}
 .instagram-reel-frame .instagram-media{width:100%!important;max-width:540px!important;min-width:0!important;margin:0 auto!important}
@@ -417,6 +430,7 @@ text-align:center;
 .compare-team-headings img{width:55px;height:45px}
 .compare-team-headings strong{font-size:8px}
 .compare-stat{padding:12px}
+.video-grid{grid-template-columns:1fr;gap:16px}
 .instagram-reel-frame{min-height:480px;padding:8px 0}
 .videos-heading{align-items:flex-start}
 .all-videos-button{padding:11px 12px;font-size:9px}
