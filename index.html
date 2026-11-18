@@ -439,35 +439,6 @@ text-align:center;
 .all-videos-grid{grid-template-columns:1fr}
 }
 
-/* SEASON 2026 */
-#season{scroll-margin-top:100px}
-.season-topline{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:12px}
-.season-count{padding:9px 13px;background:#191919;border:1px solid #383838;color:#aaa;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1.5px;white-space:nowrap}
-.season-tabs{display:flex;gap:8px;margin:24px 0 18px}
-.season-tab{flex:1;padding:14px 10px;background:#171717;border:1px solid #333;border-bottom:3px solid #333;color:#888;font-family:'F1 Bold',Arial,sans-serif;font-size:10px;letter-spacing:1px;cursor:pointer}
-.season-tab.active{color:#fff;background:#202020;border-color:#e10600;border-bottom-color:#e10600}
-.season-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.season-race{min-width:0;padding:18px;background:#141414;border:1px solid #303030;border-left:3px solid #555;transition:.2s}
-.season-race.completed{border-left-color:#e10600}
-.season-race.upcoming{border-left-color:#777}
-.season-race:hover{background:#1b1b1b;border-color:#555}
-.season-race-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
-.season-round{color:#777;font-family:'F1 Bold',Arial,sans-serif;font-size:9px;letter-spacing:1.5px}
-.season-status{padding:5px 7px;background:#252525;color:#aaa;font-family:'F1 Bold',Arial,sans-serif;font-size:8px;letter-spacing:1px}
-.season-race.completed .season-status{color:#ff625c;background:#321716}
-.season-race h3{margin-bottom:7px;color:#fff;font-family:'F1 Bold',Arial,sans-serif;font-size:15px;overflow-wrap:anywhere}
-.season-date{color:#888;font-size:10px;letter-spacing:1px}
-.season-winner{margin-top:16px;padding-top:13px;border-top:1px solid #303030}
-.season-winner-label{display:block;margin-bottom:7px;color:#777;font-family:'F1 Bold',Arial,sans-serif;font-size:8px;letter-spacing:1.5px}
-.season-winner strong{display:block;color:#fff;font-family:'F1 Bold',Arial,sans-serif;font-size:12px}
-.season-team{display:block;margin-top:5px;color:#999;font-size:10px}
-.season-meta{display:flex;justify-content:space-between;gap:8px;margin-top:13px;color:#777;font-size:9px}
-.season-meta strong{color:#bbb;font-weight:normal}
-.season-upcoming-note{margin-top:16px;color:#999;font-size:11px;line-height:1.6}
-.season-footer{margin-top:18px;color:#666;font-size:9px;letter-spacing:1px}
-@media(max-width:850px){.season-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.season-grid{grid-template-columns:1fr}.season-topline{align-items:flex-start}.season-count{font-size:8px;padding:8px}.season-tab{padding:12px 5px;font-size:9px}}
-
 </style>
 </head>
 
@@ -475,7 +446,7 @@ text-align:center;
 <header>
 <div class="logo">PIT EKIBI <span>LEAGUE</span></div>
 <nav>
-<a href="#home">HOME</a><a href="#live">LIVE</a><a href="#race">RACE CENTER</a><a href="#season">SEASON</a><a href="#teams">TEAMS</a><a href="#videos">VIDEOS</a><a href="#standings">STANDINGS</a>
+<a href="#home">HOME</a><a href="#live">LIVE</a><a href="#race">RACE CENTER</a><a href="#teams">TEAMS</a><a href="#videos">VIDEOS</a><a href="#standings">RESULTS</a>
 </nav>
 </header>
 
@@ -653,21 +624,6 @@ text-align:center;
 </section>
 
 
-<section id="season">
-<div class="season-topline">
-<div><div class="eyebrow">THE 2026 CAMPAIGN</div><h2 class="section-title">SEASON 2026</h2></div>
-<div class="season-count">23 ROUNDS · 2026</div>
-</div>
-<p class="section-description">THE FULL CALENDAR AND EVERY COMPLETED GRAND PRIX RESULT.</p>
-<div class="season-tabs" role="group" aria-label="Season race filter">
-<button class="season-tab active" type="button" data-season-filter="all">ALL RACES</button>
-<button class="season-tab" type="button" data-season-filter="completed">COMPLETED</button>
-<button class="season-tab" type="button" data-season-filter="upcoming">UPCOMING</button>
-</div>
-<div class="season-grid" id="seasonRaceGrid"></div>
-<div class="season-footer">PIT EKIBI LEAGUE · SEASON 2026 · RACE DATA: FORMULA 1</div>
-</section>
-
 <section id="teams">
 <div class="eyebrow">MEET THE GRID</div>
 <h2 class="section-title">THE GRID</h2>
@@ -801,7 +757,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 </div>
 
 <section id="standings">
-<h2 class="section-title">DRIVER STANDINGS</h2>
+<h2 class="section-title">RESULTS</h2>
 <div class="race-card"><p>Championship standings will appear here.</p></div>
 </section>
 </main>
@@ -3464,6 +3420,33 @@ document.addEventListener("keydown",event => {
       color:#777;
       font-size:10px;
     }
+    .standings-table-wrap[hidden], .races-grid[hidden] { display:none!important; }
+    .races-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; }
+    .result-race-card { min-width:0; text-align:left; padding:18px; background:#141414; border:1px solid #303030; border-left:3px solid #e10600; color:#fff; cursor:pointer; transition:.2s; display:flex; flex-direction:column; gap:8px; }
+    .result-race-card:hover { background:#1d1d1d; border-color:#666; transform:translateY(-2px); }
+    .result-race-round { color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:9px; letter-spacing:1.5px; }
+    .result-race-card > strong { min-height:38px; font-family:'F1 Bold',Arial,sans-serif; font-size:14px; line-height:1.35; }
+    .result-race-winner-label { margin-top:8px; color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1.5px; }
+    .result-race-winner { color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:12px; }
+    .result-race-team { color:#999; font-size:10px; }
+    .result-race-fastest { margin-top:5px; padding-top:10px; border-top:1px solid #303030; color:#aaa; font-size:9px; letter-spacing:.5px; }
+    .result-race-open { margin-top:7px; color:#e10600; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
+    .race-result-modal { display:none; position:fixed; inset:0; z-index:10050; align-items:center; justify-content:center; padding:20px; }
+    .race-result-modal.active { display:flex; }
+    .race-result-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.86); backdrop-filter:blur(5px); }
+    .race-result-dialog { position:relative; z-index:1; width:min(920px,100%); max-height:90vh; overflow:auto; padding:25px; background:#101010; border:1px solid #414141; box-shadow:0 20px 80px rgba(0,0,0,.6); }
+    .race-result-modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:15px; padding-bottom:18px; border-bottom:1px solid #333; }
+    .race-result-modal-head h2 { margin:6px 0 0; color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:clamp(20px,4vw,30px); }
+    .race-result-close { width:38px; height:38px; flex-shrink:0; border:1px solid #444; background:#1b1b1b; color:#fff; font-size:27px; cursor:pointer; }
+    .race-result-highlights { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:18px 0; }
+    .race-result-highlights > div { min-width:0; padding:13px; background:#191919; border:1px solid #303030; }
+    .race-result-highlights span { display:block; margin-bottom:8px; color:#777; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
+    .race-result-highlights strong { display:block; overflow-wrap:anywhere; color:#fff; font-family:'F1 Bold',Arial,sans-serif; font-size:11px; }
+    .race-result-table-wrap { width:100%; overflow-x:auto; border:1px solid #303030; }
+    .race-result-table { min-width:620px; }
+    .race-results-empty { padding:28px!important; color:#777!important; text-align:center; font-size:10px!important; letter-spacing:1px; }
+    .race-result-modal-foot { margin-top:15px; color:#666; font-family:'F1 Bold',Arial,sans-serif; font-size:8px; letter-spacing:1px; }
+
 
     @media(max-width:600px) {
       .standings-topline {
@@ -3484,49 +3467,65 @@ document.addEventListener("keydown",event => {
         align-items:flex-start;
         flex-direction:column;
       }
+      .races-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .race-result-dialog { padding:18px 13px; }
+      .race-result-highlights { grid-template-columns:1fr; }
+
     }
   `;
 
   document.head.appendChild(style);
 
-  /* REPLACE STANDINGS SECTION */
+  /* REPLACE RESULTS SECTION */
   const section = document.getElementById("standings");
   if (!section) return;
 
+  const races = [
+    "Kilis", "Australia", "Bahrain", "Saudi Arabia", "China", "Japan",
+    "Miami", "Canada", "Monaco", "Austria", "Great Britain", "Belgium",
+    "Hungary", "Italy", "Türkiye", "Azerbaijan", "Spain", "Singapore",
+    "USA", "Germany", "Brazil", "Las Vegas", "Qatar", "Abu Dhabi"
+  ].map((name,index) => ({ round:index+1, name, winner:"", team:"", fastestLap:"", results:[] }));
+
   section.innerHTML = `
     <div class="standings-topline">
-      <div>
-        <div class="eyebrow">SEASON 2 · 2026</div>
-        <h2 class="section-title">CHAMPIONSHIP</h2>
-      </div>
-      <div class="standings-season">ROUND 16</div>
+      <div><div class="eyebrow">SEASON 2 · 2026</div><h2 class="section-title">RESULTS</h2></div>
+      <div class="standings-season">24 ROUNDS</div>
     </div>
-
-    <p class="section-description">
-      THE FIGHT FOR THE CHAMPIONSHIP.
-    </p>
-
-    <div class="standings-tabs">
-      <button class="standings-tab active" data-table="drivers" type="button">
-        DRIVER STANDINGS
-      </button>
-      <button class="standings-tab" data-table="teams" type="button">
-        CONSTRUCTOR STANDINGS
-      </button>
+    <p class="section-description">THE CHAMPIONSHIP AND EVERY GRAND PRIX RESULT.</p>
+    <div class="standings-tabs" role="tablist" aria-label="Results categories">
+      <button class="standings-tab active" data-table="drivers" type="button">DRIVERS</button>
+      <button class="standings-tab" data-table="teams" type="button">CONSTRUCTORS</button>
+      <button class="standings-tab" data-table="races" type="button">RACES</button>
     </div>
-
-    <div class="standings-table-wrap">
-      <table class="standings-table">
-        <thead id="standingsHead"></thead>
-        <tbody id="standingsBody"></tbody>
-      </table>
+    <div class="standings-table-wrap" id="standingsTableWrap">
+      <table class="standings-table"><thead id="standingsHead"></thead><tbody id="standingsBody"></tbody></table>
     </div>
-
+    <div class="races-grid" id="resultsRaceGrid" hidden></div>
     <div class="standings-footer">
       <span>PIT EKIBI LEAGUE · SEASON 2</span>
-      <span class="standings-empty-note" id="standingsNote">
-        OFFICIAL CHAMPIONSHIP POINTS
-      </span>
+      <span class="standings-empty-note" id="standingsNote">OFFICIAL CHAMPIONSHIP POINTS</span>
+    </div>
+    <div class="race-result-modal" id="raceResultModal" aria-hidden="true">
+      <div class="race-result-backdrop" data-close-race-modal></div>
+      <div class="race-result-dialog" role="dialog" aria-modal="true" aria-labelledby="raceResultTitle">
+        <div class="race-result-modal-head">
+          <div><div class="eyebrow" id="raceResultRound">ROUND 01</div><h2 id="raceResultTitle">GRAND PRIX</h2></div>
+          <button class="race-result-close" type="button" aria-label="Close results" data-close-race-modal>×</button>
+        </div>
+        <div class="race-result-highlights">
+          <div><span>WINNER</span><strong id="raceResultWinner">—</strong></div>
+          <div><span>TEAM</span><strong id="raceResultTeam">—</strong></div>
+          <div><span>FASTEST LAP</span><strong id="raceResultFastest">—</strong></div>
+        </div>
+        <div class="race-result-table-wrap">
+          <table class="standings-table race-result-table">
+            <thead><tr><th>POS</th><th>DRIVER</th><th>CONSTRUCTOR</th><th>LAPS</th><th>PTS</th></tr></thead>
+            <tbody id="raceResultBody"><tr><td colspan="5" class="race-results-empty">RESULTS WILL BE ADDED SOON.</td></tr></tbody>
+          </table>
+        </div>
+        <div class="race-result-modal-foot">PIT EKIBI LEAGUE · SEASON 2</div>
+      </div>
     </div>
   `;
 
@@ -3534,168 +3533,109 @@ document.addEventListener("keydown",event => {
   const body = section.querySelector("#standingsBody");
   const note = section.querySelector("#standingsNote");
   const tabs = section.querySelectorAll(".standings-tab");
+  const tableWrap = section.querySelector("#standingsTableWrap");
+  const raceGrid = section.querySelector("#resultsRaceGrid");
+  const modal = section.querySelector("#raceResultModal");
 
   function sortByPoints(list) {
-    return [...list].sort((a,b) => {
-      if (b.points !== a.points) return b.points - a.points;
-      return a.pos - b.pos;
-    });
+    return [...list].sort((a,b) => b.points !== a.points ? b.points-a.points : a.pos-b.pos);
   }
 
   function renderDrivers() {
-    head.innerHTML = `
-      <tr>
-        <th>POS</th>
-        <th>DRIVER</th>
-        <th>TEAM</th>
-        <th style="text-align:right">PTS</th>
-      </tr>
-    `;
-
+    tableWrap.hidden = false; raceGrid.hidden = true;
+    head.innerHTML = '<tr><th>POS</th><th>DRIVER</th><th>TEAM</th><th style="text-align:right">PTS</th></tr>';
     body.innerHTML = "";
-
     sortByPoints(drivers).forEach((driver,index) => {
       const row = document.createElement("tr");
-
       row.innerHTML = `
-        <td class="standing-position">
-          ${String(index+1).padStart(2,"0")}
-        </td>
-
-        <td class="standing-name">
-          <span class="standing-driver-number"
-            style="--standing-color:${colors[driver.key]}">
-            ${driver.number === "NO NUMBER" ? "—" : "#" + driver.number}
-          </span>${driver.name}
-        </td>
-
-        <td class="standing-team">
-          <span class="standing-team-color"
-            style="--standing-color:${colors[driver.key]}"></span>
-          ${driver.team}
-        </td>
-
-        <td class="standing-points">${driver.points}</td>
-      `;
-
+        <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
+        <td class="standing-name"><span class="standing-driver-number" style="--standing-color:${colors[driver.key]}">${driver.number === "NO NUMBER" ? "—" : "#" + driver.number}</span>${driver.name}</td>
+        <td class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[driver.key]}"></span>${driver.team}</td>
+        <td class="standing-points">${driver.points}</td>`;
       body.appendChild(row);
     });
-
-    note.textContent = "21 DRIVERS · OFFICIAL POINTS";
+    note.textContent = "21 DRIVERS · CHAMPIONSHIP POINTS";
   }
 
   function renderTeams() {
-    head.innerHTML = `
-      <tr>
-        <th>POS</th>
-        <th>CONSTRUCTOR</th>
-        <th style="text-align:right">PTS</th>
-      </tr>
-    `;
-
+    tableWrap.hidden = false; raceGrid.hidden = true;
+    head.innerHTML = '<tr><th>POS</th><th>CONSTRUCTOR</th><th style="text-align:right">PTS</th></tr>';
     body.innerHTML = "";
-
     sortByPoints(teams).forEach((team,index) => {
       const row = document.createElement("tr");
-
       row.innerHTML = `
-        <td class="standing-position">
-          ${String(index+1).padStart(2,"0")}
-        </td>
-
-        <td class="standing-name">
-          <span class="standing-team">
-            <span class="standing-team-color"
-              style="--standing-color:${colors[team.key]}"></span>
-            ${team.name}
-          </span>
-        </td>
-
-        <td class="standing-points">${team.points}</td>
-      `;
-
+        <td class="standing-position">${String(index+1).padStart(2,"0")}</td>
+        <td class="standing-name"><span class="standing-team"><span class="standing-team-color" style="--standing-color:${colors[team.key]}"></span>${team.name}</span></td>
+        <td class="standing-points">${team.points}</td>`;
       body.appendChild(row);
     });
-
-    note.textContent = "10 CONSTRUCTORS · OFFICIAL POINTS";
+    note.textContent = "10 CONSTRUCTORS · CHAMPIONSHIP POINTS";
   }
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click",() => {
-      tabs.forEach(item => item.classList.remove("active"));
-      tab.classList.add("active");
+  function openRace(race) {
+    section.querySelector("#raceResultRound").textContent = "ROUND " + String(race.round).padStart(2,"0");
+    section.querySelector("#raceResultTitle").textContent = race.name.toUpperCase() + " GRAND PRIX";
+    section.querySelector("#raceResultWinner").textContent = race.winner || "—";
+    section.querySelector("#raceResultTeam").textContent = race.team || "—";
+    section.querySelector("#raceResultFastest").textContent = race.fastestLap || "—";
+    const resultBody = section.querySelector("#raceResultBody");
+    if (!race.results.length) {
+      resultBody.innerHTML = '<tr><td colspan="5" class="race-results-empty">RESULTS WILL BE ADDED SOON.</td></tr>';
+    } else {
+      resultBody.innerHTML = race.results.map((result,index) => `
+        <tr><td class="standing-position">${result.position || index+1}</td><td class="standing-name">${result.driver || "—"}</td><td>${result.team || "—"}</td><td>${result.laps || "—"}</td><td class="standing-points">${result.points ?? "—"}</td></tr>`).join("");
+    }
+    modal.classList.add("active"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
+  }
 
-      if (tab.dataset.table === "drivers") {
-        renderDrivers();
-      } else {
-        renderTeams();
-      }
+  function closeRace() {
+    modal.classList.remove("active"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow = "";
+  }
+
+  function renderRaces() {
+    tableWrap.hidden = true; raceGrid.hidden = false; raceGrid.innerHTML = "";
+    races.forEach(race => {
+      const card = document.createElement("button");
+      card.type = "button"; card.className = "result-race-card";
+      card.innerHTML = `
+        <span class="result-race-round">ROUND ${String(race.round).padStart(2,"0")}</span>
+        <strong>${race.name.toUpperCase()} GRAND PRIX</strong>
+        <span class="result-race-winner-label">WINNER</span>
+        <span class="result-race-winner">${race.winner || "TO BE ANNOUNCED"}</span>
+        <span class="result-race-team">${race.team || "TEAM —"}</span>
+        <span class="result-race-fastest">FASTEST LAP · ${race.fastestLap || "—"}</span>
+        <span class="result-race-open">VIEW FULL RESULTS ↗</span>`;
+      card.addEventListener("click",() => openRace(race));
+      raceGrid.appendChild(card);
     });
-  });
+    note.textContent = "24 GRAND PRIX · SELECT A RACE TO VIEW RESULTS";
+  }
+
+  tabs.forEach(tab => tab.addEventListener("click",() => {
+    tabs.forEach(item => item.classList.toggle("active",item === tab));
+    if (tab.dataset.table === "drivers") renderDrivers();
+    else if (tab.dataset.table === "teams") renderTeams();
+    else renderRaces();
+  }));
+
+  modal.querySelectorAll("[data-close-race-modal]").forEach(item => item.addEventListener("click",closeRace));
+  document.addEventListener("keydown",event => { if (event.key === "Escape" && modal.classList.contains("active")) closeRace(); });
 
   renderDrivers();
 
-  /* REMOVE ARCHIVE */
   function removeArchive() {
     document.getElementById("archiveNavLink")?.remove();
     document.getElementById("archiveModal")?.remove();
-
-    document.querySelectorAll("style").forEach(item => {
-      if (item.textContent.includes(".archive-modal{")) {
-        item.remove();
-      }
-    });
+    document.querySelectorAll("style").forEach(item => { if (item.textContent.includes(".archive-modal{")) item.remove(); });
   }
-
   removeArchive();
   document.addEventListener("DOMContentLoaded",removeArchive);
   window.addEventListener("load",removeArchive);
 
-  console.log("PIT EKIBI LEAGUE: Season 2 standings loaded.");
-})();
-</script>
+  console.log("PIT EKIBI LEAGUE: Results section loaded.");
+})();</script>
 
-<script>
-(() => {
-  const races=[["Australia","06–08 MAR","George Russell","Mercedes",58,"1:23:06.801"],["China","13–15 MAR","Kimi Antonelli","Mercedes",56,"1:33:15.607"],["Japan","27–29 MAR","Kimi Antonelli","Mercedes",53,"1:28:03.403"],["Miami","01–03 MAY","Kimi Antonelli","Mercedes",57,"1:33:19.273"],["Canada","22–24 MAY","Kimi Antonelli","Mercedes",68,"1:28:15.758"],["Monaco","05–07 JUN","Kimi Antonelli","Mercedes",78,"2:23:31.243"],["Barcelona-Catalunya","12–14 JUN","Lewis Hamilton","Ferrari",66,"1:32:28.105"],["Austria","26–28 JUN","George Russell","Mercedes",71,"1:26:37.979"],["Great Britain","03–05 JUL","Charles Leclerc","Ferrari",52,"1:27:11.335"],["Belgium","17–19 JUL","Kimi Antonelli","Mercedes",44,"1:24:42.479"],["Hungary","24–26 JUL","Lando Norris","McLaren",70,"1:39:56.180"],["Netherlands","21–23 AUG","Lando Norris","McLaren",72,"2:04:44.859"],["Italy","04–06 SEP","Kimi Antonelli","Mercedes",53,"1:51:15.281"],["Spain","11–13 SEP","Kimi Antonelli","Mercedes",57,"1:34:23.754"],["Azerbaijan","24–26 SEP","George Russell","Mercedes",51,"1:38:02.143"],["Bahrain","02–04 OCT","Max Verstappen","Red Bull Racing",55,"1:47:14.808"],["Singapore","09–11 OCT","Max Verstappen","Red Bull Racing",62,"1:42:00.785"],["United States","23–25 OCT","Kimi Antonelli","Mercedes",56,"1:35:16.650"],["Mexico","30 OCT–01 NOV","Max Verstappen","Red Bull Racing",71,"2:20:28.772"],["Brazil","06–08 NOV","Lando Norris","McLaren",71,"1:35:23.504"],["Las Vegas","19–21 NOV",null,null,null,null],["Qatar","27–29 NOV",null,null,null,null],["Abu Dhabi","04–06 DEC",null,null,null,null]];
-  const grid=document.getElementById("seasonRaceGrid");
-  const tabs=document.querySelectorAll("[data-season-filter]");
-  if(!grid || !tabs.length) return;
-  function render(filter="all"){
-    grid.innerHTML="";
-    races.forEach((race,index)=>{
-      const [name,date,winner,team,laps,time]=race;
-      const completed=Boolean(winner);
-      if(filter==="completed" && !completed) return;
-      if(filter==="upcoming" && completed) return;
-      const card=document.createElement("article");
-      card.className="season-race "+(completed?"completed":"upcoming");
-      card.innerHTML=`
-        <div class="season-race-top">
-          <span class="season-round">ROUND ${String(index+1).padStart(2,"0")}</span>
-          <span class="season-status">${completed?"COMPLETED":"UPCOMING"}</span>
-        </div>
-        <h3>${name.toUpperCase()} GRAND PRIX</h3>
-        <div class="season-date">${date} · 2026</div>
-        ${completed?`
-          <div class="season-winner">
-            <span class="season-winner-label">RACE WINNER</span>
-            <strong>${winner}</strong>
-            <span class="season-team">${team}</span>
-          </div>
-          <div class="season-meta"><span>LAPS <strong>${laps}</strong></span><span>TIME <strong>${time}</strong></span></div>
-        `:`<p class="season-upcoming-note">Race results will appear here after the Grand Prix.</p>`}
-      `;
-      grid.appendChild(card);
-    });
-  }
-  tabs.forEach(tab=>tab.addEventListener("click",()=>{
-    tabs.forEach(item=>item.classList.toggle("active",item===tab));
-    render(tab.dataset.seasonFilter);
-  }));
-  render();
-})();
-</script>
+
 
 </body>
 </html>
