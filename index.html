@@ -788,7 +788,9 @@ const database=getDatabase(app);
 const auth=getAuth(app);
 const liveRef=ref(database,"live");
 const youtubeVideoID="D_EbfYvF_dE";
-const VIDEO_DURATION=601;
+const VIDEO_DURATION=7200;
+const SESSION_MAX_DURATION=9000;
+let autoStopRequested=false;
 
 let livePlayer=null;
 let liveSession=null;
@@ -825,6 +827,7 @@ liveSession=snapshot.val();
 
 if(liveSession&&liveSession.status==="running"&&liveSession.startedAt){
 sessionFinished=false;
+autoStopRequested=false;
 setLiveStatus("SESSION IN PROGRESS","playing");
 liveReplayMessage.hidden=true;
 
@@ -955,11 +958,6 @@ return;
 
 if(livePlayer)return;
 
-if(getLiveTime()>=VIDEO_DURATION){
-finishLiveSession();
-return;
-}
-
 sessionFinished=false;
 startLiveButton.disabled=true;
 startLiveButton.textContent="LOADING...";
@@ -1017,7 +1015,8 @@ setLiveStatus("BUFFERING","loading");
 }
 
 if(event.data===YT.PlayerState.ENDED){
-finishLiveSession();
+/* The two-hour video ends, but the live session stays open until STOP or 2.5 hours. */
+setLiveStatus("VIDEO FINISHED · SESSION STILL OPEN","playing");
 }
 },
 
@@ -1048,6 +1047,19 @@ playerTimer=setInterval(()=>{
 if(!livePlayer||!playerReady||!liveSession)return;
 if(liveSession.status!=="running")return;
 
+const elapsedSessionTime=liveSession.startedAt
+?Math.max(0,(Date.now()-liveSession.startedAt)/1000)
+:0;
+
+if(elapsedSessionTime>=SESSION_MAX_DURATION&&!autoStopRequested){
+autoStopRequested=true;
+update(liveRef,{status:"stopped",stoppedAt:serverTimestamp()}).catch(error=>{
+console.error("Automatic session stop failed:",error);
+autoStopRequested=false;
+});
+return;
+}
+
 const liveTime=getLiveTime();
 const currentTime=livePlayer.getCurrentTime();
 
@@ -1070,10 +1082,6 @@ String(currentSeconds).padStart(2,"0")+
 " / LIVE "+
 String(liveMinutes).padStart(2,"0")+":"+
 String(liveSeconds).padStart(2,"0");
-
-if(liveTime>=VIDEO_DURATION){
-finishLiveSession();
-}
 
 },500);
 }
