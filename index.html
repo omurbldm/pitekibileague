@@ -713,7 +713,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 </div>
 </article>
 <article class="video-card">
-<div class="video-frame">
+<div class="video-frame" id="raceReplayFrame">
 <div class="video-placeholder">
 <span class="play-icon">▶</span>
 <strong>RACE REPLAY</strong>
@@ -1116,22 +1116,33 @@ playerReady=false;
 youtubeApiLoading=false;
 
 liveControls.style.display="none";
-liveReplayMessage.hidden=false;
+liveReplayMessage.hidden=true;
 
 startLiveButton.disabled=true;
 startLiveButton.textContent="SESSION COMPLETE";
 
 setLiveStatus("SESSION COMPLETE","complete");
 
-livePlayerWrap.innerHTML=`
+/* Move the finished session replay into the Azerbaijan replay card in VIDEOS. */
+const raceReplayFrame=document.getElementById("raceReplayFrame");
+if(raceReplayFrame){
+raceReplayFrame.innerHTML=`
 <iframe
 src="https://www.youtube-nocookie.com/embed/${youtubeVideoID}?controls=1&rel=0&playsinline=1"
-title="Race Session Replay"
+title="Azerbaijan GP Full Race Replay"
 frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 referrerpolicy="strict-origin-when-cross-origin"
 allowfullscreen>
 </iframe>`;
+}
+
+livePlayerWrap.innerHTML=`
+<div class="live-error">
+<strong>SESSION COMPLETE</strong>
+<p>The replay has been moved to the VIDEOS section.</p>
+<a href="#videos" style="display:inline-block;margin-top:12px;color:#e10600;font-weight:bold;text-decoration:none">WATCH REPLAY IN VIDEOS ↗</a>
+</div>`;
 }
 
 startLiveButton.addEventListener("click",startLiveSession);
