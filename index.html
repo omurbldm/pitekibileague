@@ -677,21 +677,17 @@ text-align:center;
 <p class="section-description">RACE MOMENTS. POLE LAPS. UNFORGETTABLE BATTLES.</p>
 <div class="video-grid">
 <article class="video-card">
+<div class="video-frame">
+<div class="video-placeholder">
+<span class="play-icon">▶</span>
+<strong>AZERBAIJAN GP REPLAY</strong>
+<span>REPLAY ARCHIVE</span>
+</div>
+</div>
 <div class="video-info">
 <span class="video-tag">ROUND 16 · AZERBAIJAN GP</span>
-<h3>AZERBAIJAN GP — POLE LAP</h3>
-<p>THE FASTEST LAP IN QUALIFYING.</p>
-</div>
-<div class="instagram-reel-frame">
-<blockquote class="instagram-media"
-data-instgrm-permalink="https://www.instagram.com/reel/DfuV4ZFOoE_/"
-data-instgrm-version="14"
-style="background:#fff;border:0;border-radius:3px;margin:0 auto;width:100%;max-width:540px;">
-</blockquote>
-</div>
-<div class="instagram-reel-note">
-WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
-<a class="instagram-reel-link" href="https://www.instagram.com/reel/DfuV4ZFOoE_/" target="_blank" rel="noopener noreferrer">OPEN ON INSTAGRAM ↗</a>
+<h3>AZERBAIJAN GP — REPLAY</h3>
+<p>RELIVE THE AZERBAIJAN GRAND PRIX.</p>
 </div>
 </article>
 <article class="video-card">
@@ -708,17 +704,7 @@ WATCH THE AZERBAIJAN GP POLE LAP ON INSTAGRAM.<br>
 <p>RELIVE THE RACE.</p>
 </div>
 </article>
-<article class="video-card">
-<div class="video-info">
-<span class="video-tag">ROUND 17 · MADRID GP</span>
-<h3>MADRID GP — QUALIFYING</h3>
-<p>WATCH THE MADRID QUALIFYING SESSION ON YOUTUBE.</p>
-</div>
-<a href="https://youtu.be/PXrkC6jc7G0" target="_blank" rel="noopener noreferrer" class="video-frame" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;overflow:hidden;">
-<img src="https://img.youtube.com/vi/PXrkC6jc7G0/hqdefault.jpg" alt="Madrid GP Qualifying" style="width:100%;height:100%;object-fit:cover;">
-<strong style="position:absolute;bottom:14px;left:14px;background:#e10600;color:white;padding:10px 14px;font-size:11px;">WATCH ON YOUTUBE ↗</strong>
-</a>
-</article>
+
 </div>
 </section>
 
@@ -762,7 +748,7 @@ const app=initializeApp(firebaseConfig);
 const database=getDatabase(app);
 const auth=getAuth(app);
 const liveRef=ref(database,"live");
-const youtubeVideoID="D_EbfYvF_dE";
+const youtubeVideoID="PXrkC6jc7G0";
 const VIDEO_DURATION=7200;
 const SESSION_MAX_DURATION=9000;
 let autoStopRequested=false;
@@ -1120,13 +1106,13 @@ startLiveButton.textContent="SESSION COMPLETE";
 
 setLiveStatus("SESSION COMPLETE","complete");
 
-/* Move the finished session replay into the Azerbaijan replay card in VIDEOS. */
+/* Move the finished Madrid qualifying replay into the existing RACE REPLAY card. */
 const raceReplayFrame=document.getElementById("raceReplayFrame");
 if(raceReplayFrame){
 raceReplayFrame.innerHTML=`
 <iframe
 src="https://www.youtube-nocookie.com/embed/${youtubeVideoID}?controls=1&rel=0&playsinline=1"
-title="Azerbaijan GP Full Race Replay"
+title="Madrid GP Qualifying Replay"
 frameborder="0"
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 referrerpolicy="strict-origin-when-cross-origin"
@@ -1137,8 +1123,8 @@ allowfullscreen>
 livePlayerWrap.innerHTML=`
 <div class="live-error">
 <strong>SESSION COMPLETE</strong>
-<p>The replay has been moved to the VIDEOS section.</p>
-<a href="#videos" style="display:inline-block;margin-top:12px;color:#e10600;font-weight:bold;text-decoration:none">WATCH REPLAY IN VIDEOS ↗</a>
+<p>The qualifying replay has been moved to the REPLAY section.</p>
+<a href="#videos" style="display:inline-block;margin-top:12px;color:#e10600;font-weight:bold;text-decoration:none">WATCH REPLAY ↗</a>
 </div>`;
 }
 
@@ -1340,10 +1326,7 @@ window.instgrm.Embeds.process();
 window.addEventListener("load",processInstagramEmbeds);
 
 /* ALL VIDEOS GALLERY - DIRECT LINKS */
-const allVideos=[
-{title:"AZERBAIJAN GP — POLE LAP",event:"SEASON 2 · ROUND 16 · AZERBAIJAN GP",platform:"INSTAGRAM",url:"https://www.instagram.com/reel/DfuV4ZFOoE_/"},
-{title:"MADRID GP — QUALIFYING",event:"SEASON 2 · ROUND 17 · MADRID GP",platform:"YOUTUBE",url:"https://youtu.be/PXrkC6jc7G0"}
-];
+const allVideos=[];
 
 const videosModal=document.getElementById("videosModal");
 const allVideosButton=document.getElementById("allVideosButton");
