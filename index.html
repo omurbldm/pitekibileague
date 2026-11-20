@@ -686,10 +686,14 @@ text-align:center;
 </div>
 <p class="section-description">WATCH THE LATEST VIDEOS FROM OUR OFFICIAL CHANNEL.</p>
 <div class="channel-embed-frame" id="raceReplayFrame">
-<div class="channel-embed-placeholder">
-<strong>CHANNEL UPDATES</strong>
-<span>THE CHANNEL WILL APPEAR HERE AFTER THE SESSION ENDS.</span>
-</div>
+<iframe
+src="https://www.youtube-nocookie.com/embed/videoseries?list=UUx-C_nD4xjKbFBsB111bwUQ&controls=1&rel=0&playsinline=1"
+title="Listen FormulaTR YouTube Channel"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+referrerpolicy="strict-origin-when-cross-origin"
+allowfullscreen>
+</iframe>
 </div>
 <a class="channel-link-button" href="https://www.youtube.com/@listen_formulatr" target="_blank" rel="noopener noreferrer">VISIT YOUTUBE CHANNEL ↗</a>
 </section>
@@ -1080,20 +1084,6 @@ startLiveButton.disabled=true;
 startLiveButton.textContent="SESSION COMPLETE";
 
 setLiveStatus("SESSION COMPLETE","complete");
-
-/* After STOP SESSION, show the channel uploads playlist in the former replay area. */
-const raceReplayFrame=document.getElementById("raceReplayFrame");
-if(raceReplayFrame){
-raceReplayFrame.innerHTML=`
-<iframe
-src="https://www.youtube-nocookie.com/embed/videoseries?list=UUx-C_nD4xjKbFBsB111bwUQ&controls=1&rel=0&playsinline=1"
-title="Listen FormulaTR YouTube Channel"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-referrerpolicy="strict-origin-when-cross-origin"
-allowfullscreen>
-</iframe>`;
-}
 
 livePlayerWrap.innerHTML=`
 <div class="live-error">
