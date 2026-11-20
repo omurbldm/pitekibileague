@@ -655,43 +655,11 @@ text-align:center;
 <div class="team-driver"><span>DRIVER 02</span><strong id="teamDriverTwo">TO BE ANNOUNCED</strong></div>
 </div>
 </div>
-<div class="team-modal-section">
-<button hidden class="compare-open-button" id="compareOpenButton" type="button" aria-expanded="false" aria-controls="comparePanel">
-<span>COMPARE WITH ANOTHER TEAM</span><span id="compareArrow">↗</span>
-</button>
-<div class="compare-panel" id="comparePanel">
-<h3>SELECT YOUR RIVAL</h3>
-<select id="compareTeamSelect"><option value="">SELECT A TEAM</option></select>
-<div class="compare-result" id="compareResult" hidden>
-<div class="compare-team-headings">
-<div><img id="compareLogoOne" src="" alt="First team"><strong id="compareNameOne"></strong></div>
-<span>VS</span>
-<div><img id="compareLogoTwo" src="" alt="Second team"><strong id="compareNameTwo"></strong></div>
-</div>
-<div class="compare-legend" id="compareLegend"></div>
-<h3>STATISTICS COMPARISON</h3>
-<div id="compareChart" class="compare-chart"></div>
-</div>
-</div>
-</div>
 <div class="team-modal-section" id="formerDriversSection" hidden>
 <button class="former-toggle" id="formerToggle" type="button" aria-expanded="false" aria-controls="formerPanel">
 <span>FORMER DRIVERS</span><span class="former-toggle-icon">⌄</span>
 </button>
 <div class="former-panel" id="formerPanel"><div class="former-drivers" id="formerDriversGrid"></div></div>
-</div>
-<div class="team-modal-section">
-<button hidden class="stats-toggle" id="statsToggle" type="button" aria-expanded="false" aria-controls="statsPanel">
-<span>ALL TIME STATS</span><span class="stats-toggle-icon">⌄</span>
-</button>
-<div class="stats-panel" id="statsPanel">
-<div class="stats-grid" id="statsGrid"></div>
-<div class="stats-subtitle">SPRINT STATISTICS</div>
-<div class="stats-grid" id="sprintStatsGrid"></div>
-<div class="stats-subtitle">RETIREMENTS</div>
-<div class="stats-grid" id="retirementStatsGrid"></div>
-<div class="stats-footer">PIT EKIBI LEAGUE · SEASON 1 + SEASON 2</div>
-</div>
 </div>
 <p class="team-modal-note">OFFICIAL PIT EKIBI LEAGUE TEAM PROFILE.</p>
 </div>
@@ -1262,43 +1230,6 @@ const formerDriversSection=document.getElementById("formerDriversSection");
 const formerToggle=document.getElementById("formerToggle");
 const formerPanel=document.getElementById("formerPanel");
 const formerDriversGrid=document.getElementById("formerDriversGrid");
-const statsToggle=document.getElementById("statsToggle");
-const statsPanel=document.getElementById("statsPanel");
-const statsGrid=document.getElementById("statsGrid");
-const sprintStatsGrid=document.getElementById("sprintStatsGrid");
-const retirementStatsGrid=document.getElementById("retirementStatsGrid");
-
-/* COMPARISON ELEMENTS */
-const compareOpenButton=document.getElementById("compareOpenButton");
-const comparePanel=document.getElementById("comparePanel");
-const compareTeamSelect=document.getElementById("compareTeamSelect");
-const compareResult=document.getElementById("compareResult");
-const compareChart=document.getElementById("compareChart");
-const compareLogoOne=document.getElementById("compareLogoOne");
-const compareLogoTwo=document.getElementById("compareLogoTwo");
-const compareNameOne=document.getElementById("compareNameOne");
-const compareNameTwo=document.getElementById("compareNameTwo");
-const compareArrow=document.getElementById("compareArrow");
-const compareLegend=document.getElementById("compareLegend");
-
-let comparisonMainTeam=null;
-
-function createStatItem(label,value){
-const item=document.createElement("div");
-item.className="stat-item";
-
-const title=document.createElement("span");
-title.textContent=label;
-
-const number=document.createElement("strong");
-number.textContent=value;
-
-item.appendChild(title);
-item.appendChild(number);
-
-return item;
-}
-
 function renderFormerDrivers(team){
 formerDriversGrid.innerHTML="";
 
@@ -1339,207 +1270,9 @@ formerPanel.classList.remove("open");
 formerToggle.setAttribute("aria-expanded","false");
 }
 
-function renderTeamStats(team){
-statsGrid.innerHTML="";
-sprintStatsGrid.innerHTML="";
-retirementStatsGrid.innerHTML="";
-
-const mainStats=[
-["TOTAL POINTS",team.points],
-["RACE WINS",team.wins],
-["PODIUMS",team.podiums],
-["POLE POSITIONS",team.poles],
-["CONSTRUCTORS' CHAMPIONSHIPS",team.constructors],
-["FASTEST LAPS (RACE)",team.fastestLaps],
-["COMPLETED SESSIONS",team.completed]
-];
-
-const sprintStats=[
-["SPRINT SESSIONS",team.sprintSessions],
-["SPRINT WINS",team.sprintWins],
-["SPRINT FASTEST LAPS",team.sprintFastest]
-];
-
-const retirementStats=[
-["TOTAL RETIREMENTS",team.retirements],
-["DNF",team.dnf],
-["DSQ",team.dsq],
-["DNS",team.dns]
-];
-
-mainStats.forEach(([label,value])=>statsGrid.appendChild(createStatItem(label,value)));
-sprintStats.forEach(([label,value])=>sprintStatsGrid.appendChild(createStatItem(label,value)));
-retirementStats.forEach(([label,value])=>retirementStatsGrid.appendChild(createStatItem(label,value)));
-}
-
-/* COMPARISON SYSTEM */
-function populateCompareTeams(mainTeamKey){
-compareTeamSelect.innerHTML='<option value="">SELECT A TEAM</option>';
-
-Object.entries(teamData).forEach(([key,team])=>{
-if(key===mainTeamKey)return;
-
-const option=document.createElement("option");
-option.value=key;
-option.textContent=team.name;
-
-compareTeamSelect.appendChild(option);
-});
-
-compareTeamSelect.value="";
-compareResult.hidden=true;
-compareChart.innerHTML="";
-}
-
-function renderComparison(mainKey,rivalKey){
-const teamOne=teamData[mainKey];
-const teamTwo=teamData[rivalKey];
-
-if(!teamOne||!teamTwo)return;
-
-const colorOne=teamColors[mainKey]||"#e10600";
-const colorTwo=teamColors[rivalKey]||"#777777";
-
-compareLogoOne.src=teamOne.logo;
-compareLogoTwo.src=teamTwo.logo;
-compareNameOne.textContent=teamOne.name;
-compareNameTwo.textContent=teamTwo.name;
-
-compareLegend.innerHTML="";
-
-const legendOne=document.createElement("span");
-const legendOneColor=document.createElement("i");
-legendOneColor.style.backgroundColor=colorOne;
-legendOne.appendChild(legendOneColor);
-legendOne.appendChild(document.createTextNode(teamOne.name));
-
-const legendTwo=document.createElement("span");
-const legendTwoColor=document.createElement("i");
-legendTwoColor.style.backgroundColor=colorTwo;
-legendTwo.appendChild(legendTwoColor);
-legendTwo.appendChild(document.createTextNode(teamTwo.name));
-
-compareLegend.appendChild(legendOne);
-compareLegend.appendChild(legendTwo);
-
-const metrics=[
-{label:"TOTAL POINTS",key:"points"},
-{label:"RACE WINS",key:"wins"},
-{label:"PODIUMS",key:"podiums"},
-{label:"POLE POSITIONS",key:"poles"},
-{label:"CONSTRUCTORS' CHAMPIONSHIPS",key:"constructors"},
-{label:"FASTEST LAPS",key:"fastestLaps"},
-{label:"COMPLETED SESSIONS",key:"completed"},
-{label:"SPRINT SESSIONS",key:"sprintSessions"},
-{label:"SPRINT WINS",key:"sprintWins"},
-{label:"SPRINT FASTEST LAPS",key:"sprintFastest"},
-{label:"TOTAL RETIREMENTS",key:"retirements"},
-{label:"DNF",key:"dnf"},
-{label:"DSQ",key:"dsq"},
-{label:"DNS",key:"dns"}
-];
-
-compareChart.innerHTML="";
-
-metrics.forEach(metric=>{
-const valueOne=Number(teamOne[metric.key])||0;
-const valueTwo=Number(teamTwo[metric.key])||0;
-const maximum=Math.max(valueOne,valueTwo,1);
-
-const widthOne=(valueOne/maximum)*100;
-const widthTwo=(valueTwo/maximum)*100;
-
-const stat=document.createElement("div");
-stat.className="compare-stat";
-
-const title=document.createElement("div");
-title.className="compare-stat-title";
-
-const label=document.createElement("span");
-label.textContent=metric.label;
-
-const values=document.createElement("strong");
-values.textContent=valueOne+" - "+valueTwo;
-
-title.appendChild(label);
-title.appendChild(values);
-
-const bars=document.createElement("div");
-bars.className="compare-bars";
-
-function createBarRow(shortName,value,width,color){
-const row=document.createElement("div");
-row.className="compare-bar-row";
-
-const name=document.createElement("span");
-name.textContent=shortName;
-
-const track=document.createElement("div");
-track.className="compare-bar-track";
-
-const bar=document.createElement("div");
-bar.className="compare-bar";
-bar.style.width=width+"%";
-bar.style.backgroundColor=color;
-
-track.appendChild(bar);
-
-const number=document.createElement("span");
-number.className="compare-bar-value";
-number.textContent=value;
-
-row.appendChild(name);
-row.appendChild(track);
-row.appendChild(number);
-
-return row;
-}
-
-bars.appendChild(createBarRow("A",valueOne,widthOne,colorOne));
-bars.appendChild(createBarRow("B",valueTwo,widthTwo,colorTwo));
-
-stat.appendChild(title);
-stat.appendChild(bars);
-
-compareChart.appendChild(stat);
-});
-
-compareResult.hidden=false;
-}
-
-compareOpenButton.addEventListener("click",()=>{
-const isOpen=comparePanel.classList.toggle("open");
-
-compareOpenButton.setAttribute("aria-expanded",String(isOpen));
-compareArrow.textContent=isOpen?"⌄":"↗";
-
-if(isOpen)populateCompareTeams(comparisonMainTeam);
-});
-
-compareTeamSelect.addEventListener("change",()=>{
-const rivalKey=compareTeamSelect.value;
-
-if(!rivalKey||!comparisonMainTeam){
-compareResult.hidden=true;
-return;
-}
-
-renderComparison(comparisonMainTeam,rivalKey);
-});
-
 function openTeamPopup(teamKey){
 const team=teamData[teamKey];
 if(!team)return;
-
-comparisonMainTeam=teamKey;
-
-comparePanel.classList.remove("open");
-compareOpenButton.setAttribute("aria-expanded","false");
-compareArrow.textContent="↗";
-
-compareTeamSelect.value="";
-compareResult.hidden=true;
-compareChart.innerHTML="";
 
 teamModalContent.style.setProperty("--team-color",teamColors[teamKey]||"#e10600");
 
@@ -1550,11 +1283,6 @@ teamModalName.textContent=team.name;
 teamDriverOne.textContent=team.driverOne;
 teamDriverTwo.textContent=team.driverTwo;
 
-renderFormerDrivers(team);
-renderTeamStats(team);
-
-statsPanel.classList.remove("open");
-statsToggle.setAttribute("aria-expanded","false");
 
 teamModal.classList.add("active");
 teamModal.setAttribute("aria-hidden","false");
@@ -1572,11 +1300,6 @@ document.body.style.overflow="";
 formerToggle.addEventListener("click",()=>{
 const isOpen=formerPanel.classList.toggle("open");
 formerToggle.setAttribute("aria-expanded",String(isOpen));
-});
-
-statsToggle.addEventListener("click",()=>{
-const isOpen=statsPanel.classList.toggle("open");
-statsToggle.setAttribute("aria-expanded",String(isOpen));
 });
 
 document.querySelectorAll(".team-card").forEach(card=>{
