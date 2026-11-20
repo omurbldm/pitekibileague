@@ -16,8 +16,8 @@ export async function onRequestGet() {
     }
 
     const xml = await response.text();
-    const firstEntry = xml.match(/<entry(?:\\s[^>]*)?>([\\s\\S]*?)<\\/entry>/i);
-    const videoMatch = firstEntry && firstEntry[1].match(/<yt:videoId>([^<]+)<\\/yt:videoId>/i);
+    const firstEntry = xml.match(/<entry(?:\s[^>]*)?>([\s\S]*?)<\/entry>/i);
+    const videoMatch = firstEntry && firstEntry[1].match(/<yt:videoId>([^<]+)<\/yt:videoId>/i);
 
     if (!videoMatch) {
       return Response.json({ error: "No videos found", videoId: null }, {
